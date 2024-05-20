@@ -1,2 +1,16 @@
-import "./reset.css";
-import "./style.css";
+// import "./reset.css";
+// import "./style.css";
+
+// function Ship() {
+    
+// } 
+
+
+
+
+function sum(a, b) {
+    return a + b;
+}
+//   module.exports = sum;
+
+export default sum ;
