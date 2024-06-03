@@ -12,5 +12,14 @@
         "sourceType": "module"
     },
     "rules": {
-    }
+    },
+    "overrides": [
+        {
+          "files": ["*.js"],
+          "env": {
+            "jest": true
+          }
+        }
+      ]
+
 }

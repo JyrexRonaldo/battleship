@@ -1,16 +1,23 @@
 // import "./reset.css";
 // import "./style.css";
 
-// function Ship() {
-    
-// } 
+function ship(length) {
+  let hitCount = 0;
+  const shipLength = length;
 
+  const hit = () => {
+    hitCount += 1;
+  };
 
+  const getHitCount = () => hitCount;
 
+  const isSunk = () => shipLength === hitCount;
 
-function sum(a, b) {
-    return a + b;
+  return { hit, getHitCount, isSunk };
 }
-//   module.exports = sum;
 
-export default sum ;
+function gameboard() {
+
+}
+
+export { ship, gameboard };
