@@ -1,4 +1,4 @@
-import { ship } from "./index";
+import { ship } from "./game-components";
 
 describe("ship.hit()", () => {
   test("calling hit on destroyer shound make it sink", () => {
