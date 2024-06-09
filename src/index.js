@@ -81,8 +81,8 @@ function gameboard() {
   };
 
   const availableCoordinates = (length, xPos, yPos, direction) => {
-    // true means horizontal direction
-    // false means vertical direction
+    // direction = true means horizontal direction
+    // direction = false means vertical direction
     let available = null;
     if (direction) {
       for (let i = 0; i < length; i += 1) {
@@ -109,8 +109,8 @@ function gameboard() {
     let message = null;
 
     if (freeSpace) {
-      // true means horizontal direction
-      // false means vertical direction
+      // direction = true means horizontal direction
+      // direction = false means vertical direction
       if (direction) {
         for (let i = 0; i < length; i += 1) {
           board[xPos + i][yPos].occupy();
@@ -136,21 +136,29 @@ function gameboard() {
     }
   };
 
-  return { placeShip, receiveAttack };
+  const allShipSunkStatus = (battleships) => {
+    const boats = Object.keys(battleships);
+    const sunkValues = boats.map((boat) => battleships[boat].isSunk());
+    if (sunkValues.includes(false)) {
+      return false;
+    }
+    return true;
+  };
+
+  return { placeShip, receiveAttack, allShipSunkStatus };
 }
 
-export { ship, gameboard };
+function player(name) { 
+  const playerName = name 
 
-// const ships = {
-//   carrier: ship(5),
-//   battleship: ship(4),
-//   cruiser: ship(3),
-//   submarine: ship(3),
-//   destroyer: ship(2)
-// };
+  const board = gameboard()
 
-// const placeShip = (shipType, xPos, yPos) => {
-//     let coordinate = board[xPos][yPos]
+  const getPlayerName = () => playerName
 
-//     coordinate.occupy()
-//   }
+  const getBoard = () => board
+ 
+  return {getPlayerName, getBoard}
+}
+
+export { ship, gameboard, player };
+
