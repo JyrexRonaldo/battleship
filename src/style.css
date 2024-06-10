@@ -18,7 +18,8 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+  /* flex-direction: column; */
+  justify-content: space-evenly;
 }
 
 .gameboard > div:nth-child(1) {
@@ -84,4 +85,43 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.ships {
+  width: 407px;
+  height: 407px;
+  border: 1px solid black;
+}
+
+.ships > div:nth-child(1) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px ;
+}
+
+.ships > div:nth-child(2) {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  align-items: center;
+  padding: 30px;
+}
+
+.ships > div:nth-child(2) > div {
+  border: 1px solid black;
+  /* height: auto; */
+  /* width: auto; */
+}
+
+.ships > div:nth-child(2) > div:nth-child(1) {
+  rotate: 90deg;
+  margin: 0px 60px; 
+}
+
+.ships > div:nth-child(2) > div > div {
+  width: 37px;
+  height: 37px;
+  border: 1px solid black;
 }
