@@ -1,6 +1,3 @@
-// import "./reset.css";
-// import "./style.css";
-
 function ship(length, name) {
   let hitCount = 0;
   const shipLength = length;

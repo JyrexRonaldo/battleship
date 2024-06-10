@@ -1,0 +1,60 @@
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: inherit;
+}
+
+body {
+  height: 100vh;
+}
+
+header {
+  height: 10vh;
+  background-color: green;
+  border: 3ps dashed red;
+}
+
+main {
+  height: 90vh;
+  background-color: cyan;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+main > div {
+  border: 3px solid black;
+}
+
+.coordinates {
+  width: 456px;
+  height: 456px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.coordinates > div {
+  border: 1px solid black;
+  width: 45px;
+  height: 45px;
+}
+
+.numbers {
+    width: 45px;
+    height: 456px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+
+  .numbers > div {
+    border: 1px solid black;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
