@@ -24,9 +24,19 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
+ flex-direction: column; 
 }
-main > div {
+
+main > div:nth-child(1) {
   border: 3px solid black;
+  width: 501px;
+  display: flex;
+}
+
+main > div:nth-child(2) {
+  border: 3px solid black;
+  width: 501px;
+  display: flex;
 }
 
 .coordinates {
@@ -51,6 +61,23 @@ main > div {
 
 
   .numbers > div {
+    border: 1px solid black;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .letters {
+    width: 456px;
+    height: 45px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+
+  .letters > div {
     border: 1px solid black;
     width: 45px;
     height: 45px;
