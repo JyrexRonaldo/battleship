@@ -29,7 +29,7 @@ main {
 
 main > div:nth-child(1) {
   border: 3px solid black;
-  width: 501px;
+  width: auto;
   display: flex;
 }
 
@@ -37,24 +37,25 @@ main > div:nth-child(2) {
   border: 3px solid black;
   width: 501px;
   display: flex;
+  width: auto;
 }
 
 .coordinates {
-  width: 456px;
-  height: 456px;
+  width: 370px;
+  height: 370px;
   display: flex;
   flex-wrap: wrap;
 }
 
 .coordinates > div {
   border: 1px solid black;
-  width: 45px;
-  height: 45px;
+  width: 37px;
+  height: 37px;
 }
 
 .numbers {
-    width: 45px;
-    height: 456px;
+    width: 37px;
+    height: 370px;
     display: flex;
     flex-wrap: wrap;
   }
@@ -62,16 +63,16 @@ main > div:nth-child(2) {
 
   .numbers > div {
     border: 1px solid black;
-    width: 45px;
-    height: 45px;
+    width: 37px;
+    height: 37px;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
   .letters {
-    width: 456px;
-    height: 45px;
+    width: 370px;
+    height: 37px;
     display: flex;
     flex-wrap: wrap;
   }
@@ -79,8 +80,8 @@ main > div:nth-child(2) {
 
   .letters > div {
     border: 1px solid black;
-    width: 45px;
-    height: 45px;
+    width: 37px;
+    height: 37px;
     display: flex;
     align-items: center;
     justify-content: center;
