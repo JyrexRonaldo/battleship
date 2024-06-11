@@ -16,7 +16,6 @@ main {
   height: 100vh;
   background-color: cyan;
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
   justify-content: flex-start;
@@ -144,4 +143,12 @@ main > .ship-placement {
 .battlefield {
   display: flex;
   gap: 150px;
+}
+
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin: 30px;
 }
