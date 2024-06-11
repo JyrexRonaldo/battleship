@@ -134,8 +134,14 @@ main > .ship-placement {
   border: 1px solid black;
 }
 
-.ship-placement > .buttons {
+.ship-placement > .buttons, .battlefield + .buttons {
   display: flex;
   flex-direction: column;
   gap: 15px;
+}
+
+
+.battlefield {
+  display: flex;
+  gap: 150px;
 }
