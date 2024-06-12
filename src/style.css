@@ -18,12 +18,23 @@ main {
   display: flex;
   align-items: center;
   flex-direction: column;
+  /* justify-content: flex-start; */
+  /* gap: 40px; */
+  /* padding-top: 80px; */
+}
+
+main > div {
+  height: 100vh;
+  background-color: cyan;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
   justify-content: flex-start;
   gap: 40px;
   padding-top: 80px;
 }
 
-main > .ship-placement {
+.ship-placement {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -151,4 +162,8 @@ main > .ship-placement {
   flex-direction: column;
   gap: 15px;
   margin: 30px;
+}
+
+.hidden {
+  display: none;
 }

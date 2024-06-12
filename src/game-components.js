@@ -3,7 +3,7 @@ function ship(length, name) {
   const shipLength = length;
   const shipName = name;
 
-  const hit = () => {
+  const increaseHitCount = () => {
     hitCount += 1;
   };
 
@@ -13,7 +13,7 @@ function ship(length, name) {
 
   const getShipName = () => shipName;
 
-  return { hit, isSunk, getShipLength, getShipName };
+  return { increaseHitCount, isSunk, getShipLength, getShipName };
 }
 
 const coordinates = (xPos, yPos) => {
@@ -23,15 +23,11 @@ const coordinates = (xPos, yPos) => {
   const getXCoordinate = () => xCoordinate;
   const getYCoordinate = () => yCoordinate;
 
-  let occupied = false;
-
   let shipName = null;
 
-  let attacked = false;
+  let occupied = false;
 
-  const occupy = () => {
-    occupied = true;
-  };
+  let attacked = false;
 
   const setShipName = (name) => {
     shipName = name;
@@ -39,9 +35,13 @@ const coordinates = (xPos, yPos) => {
 
   const getShipName = () => shipName;
 
+  const setOccupiedStatus = () => {
+    occupied = true;
+  };
+
   const getOccupiedStatus = () => occupied;
 
-  const setAttacked = () => {
+  const setAttackedStatus = () => {
     attacked = true;
   };
 
@@ -50,11 +50,11 @@ const coordinates = (xPos, yPos) => {
   return {
     getXCoordinate,
     getYCoordinate,
-    occupy,
+    setOccupiedStatus,
     getOccupiedStatus,
     setShipName,
     getShipName,
-    setAttacked,
+    setAttackedStatus,
     getAttackedStatus,
   };
 };
@@ -65,7 +65,7 @@ function gameboard() {
   for (let x = 0; x < 10; x += 1) {
     board[x] = [];
     for (let y = 0; y < 10; y += 1) {
-      board[x][y].push(coordinates(x, y));
+      board[x].push(coordinates(x, y));
     }
   }
 
@@ -77,20 +77,20 @@ function gameboard() {
     destroyer: ship(2, "destroyer"),
   };
 
-  const availableCoordinates = (length, xPos, yPos, direction) => {
+  const checkCoordinatesAvailability = (length, xPos, yPos, direction) => {
     // direction = true means horizontal direction
     // direction = false means vertical direction
     let available = null;
     if (direction) {
       for (let i = 0; i < length; i += 1) {
-        available = board[xPos + i][yPos].occupied === false;
+        available = board[xPos + i][yPos].getOccupiedStatus() === false;
         if (available === false) {
           break;
         }
       }
     } else {
       for (let i = 0; i < length; i += 1) {
-        available = board[xPos][yPos + i].occupied === false;
+        available = board[xPos][yPos + i].getOccupiedStatus() === false;
         if (available === false) {
           break;
         }
@@ -101,20 +101,27 @@ function gameboard() {
   };
 
   const placeShip = (shipType, xPos, yPos, direction) => {
-    const length = shipType.getShipLength;
-    const freeSpace = availableCoordinates(length, xPos, yPos, direction);
+    const length = shipType.getShipLength();
+    const checkSpace = checkCoordinatesAvailability(
+      length,
+      xPos,
+      yPos,
+      direction
+    );
     let message = null;
 
-    if (freeSpace) {
+    if (checkSpace) {
       // direction = true means horizontal direction
       // direction = false means vertical direction
       if (direction) {
         for (let i = 0; i < length; i += 1) {
-          board[xPos + i][yPos].occupy();
+          board[xPos + i][yPos].setOccupiedStatus();
+          board[xPos + i][yPos].setShipName(shipType.getShipName());
         }
       } else {
         for (let i = 0; i < length; i += 1) {
-          board[xPos][yPos + i].occupy();
+          board[xPos][yPos + i].setOccupiedStatus();
+          board[xPos][yPos + i].setShipName(shipType.getShipName());
         }
       }
     } else {
@@ -129,11 +136,11 @@ function gameboard() {
     attackCoordinate.setAttacked();
     if (attackCoordinate.getOccupiedStatus()) {
       const attackedShip = attackCoordinate.getShipName();
-      ships[attackedShip].hit();
+      ships[attackedShip].increaseHitCount();
     }
   };
 
-  const allShipSunkStatus = (battleships) => {
+  const checkShipSunkStatus = (battleships) => {
     const boats = Object.keys(battleships);
     const sunkValues = boats.map((boat) => battleships[boat].isSunk());
     if (sunkValues.includes(false)) {
@@ -142,20 +149,19 @@ function gameboard() {
     return true;
   };
 
-  return { placeShip, receiveAttack, allShipSunkStatus };
+  return { placeShip, receiveAttack, checkShipSunkStatus };
 }
 
-function player(name) { 
-  const playerName = name 
+function player(name) {
+  const playerName = name;
 
-  const board = gameboard()
+  const board = gameboard();
 
-  const getPlayerName = () => playerName
+  const getPlayerName = () => playerName;
 
-  const getBoard = () => board
- 
-  return {getPlayerName, getBoard}
+  const getBoard = () => board;
+
+  return { getPlayerName, getBoard };
 }
 
 export { ship, gameboard, player };
-
