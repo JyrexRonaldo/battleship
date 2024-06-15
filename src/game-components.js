@@ -77,7 +77,11 @@ function gameboard() {
     destroyer: ship(2, "destroyer"),
   };
 
-  const checkCoordinatesAvailability = (length, xPos, yPos, direction) => {
+  const getShips = () => ships;
+
+  const checkCoordinatesAvailability = (shipTypeName, xPos, yPos, direction) => {
+    const shipType = ships[shipTypeName]
+    const length = shipType.getShipLength()
     // direction = true means horizontal direction
     // direction = false means vertical direction
     let available = null;
@@ -100,7 +104,8 @@ function gameboard() {
     return available;
   };
 
-  const placeShip = (shipType, xPos, yPos, direction) => {
+  const placeShip = (shipTypeName, xPos, yPos, direction) => {
+    const shipType = ships[shipTypeName];
     const length = shipType.getShipLength();
     const checkSpace = checkCoordinatesAvailability(
       length,
@@ -140,16 +145,61 @@ function gameboard() {
     }
   };
 
-  const checkShipSunkStatus = (battleships) => {
-    const boats = Object.keys(battleships);
-    const sunkValues = boats.map((boat) => battleships[boat].isSunk());
+  const checkShipSunkStatus = () => {
+    const boats = Object.keys(ships);
+    const sunkValues = boats.map((boat) => ships[boat].isSunk());
     if (sunkValues.includes(false)) {
       return false;
     }
     return true;
   };
 
-  return { placeShip, receiveAttack, checkShipSunkStatus };
+  const getRandomDirection = () => {
+    const number = Math.floor(Math.random() * 2);
+    return number === 0;
+  };
+
+  const getRandomCoordinate = () => {
+    const coordinate = Math.floor(Math.random() * 10);
+    return coordinate;
+  };
+
+  const randomizeShipPlacement = () => {
+    const shipNames = Object.keys(ships);
+    shipNames.forEach((shipName) => {
+      let randomXCoordinate = null;
+      let randomYCoordinate = null;
+      let randomDirection = null;
+      let checkSpace = null;
+
+      do {
+        randomXCoordinate = getRandomCoordinate();
+        randomYCoordinate = getRandomCoordinate();
+        randomDirection = getRandomDirection();
+        checkSpace = checkCoordinatesAvailability(
+          shipName,
+          randomXCoordinate,
+          randomYCoordinate,
+          randomDirection
+        );
+      } while (checkSpace === false);
+
+      placeShip(
+        shipName,
+        randomXCoordinate,
+        randomYCoordinate,
+        randomDirection
+      );
+    });
+  };
+
+  return {
+    placeShip,
+    receiveAttack,
+    checkShipSunkStatus,
+    getShips,
+    randomizeShipPlacement,
+  };
 }
 
 function player(name) {
