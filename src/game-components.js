@@ -77,11 +77,18 @@ function gameboard() {
     destroyer: ship(2, "destroyer"),
   };
 
+  const getBoard = () => board;
+
   const getShips = () => ships;
 
-  const checkCoordinatesAvailability = (shipTypeName, xPos, yPos, direction) => {
-    const shipType = ships[shipTypeName]
-    const length = shipType.getShipLength()
+  const checkCoordinatesAvailability = (
+    shipTypeName,
+    xPos,
+    yPos,
+    direction
+  ) => {
+    const shipType = ships[shipTypeName];
+    const length = shipType.getShipLength();
     // direction = true means horizontal direction
     // direction = false means vertical direction
     let available = null;
@@ -108,12 +115,12 @@ function gameboard() {
     const shipType = ships[shipTypeName];
     const length = shipType.getShipLength();
     const checkSpace = checkCoordinatesAvailability(
-      length,
+      shipTypeName,
       xPos,
       yPos,
       direction
     );
-    let message = null;
+    let message = "ship has been placed";
 
     if (checkSpace) {
       // direction = true means horizontal direction
@@ -138,7 +145,7 @@ function gameboard() {
 
   const receiveAttack = (xPos, yPos) => {
     const attackCoordinate = board[xPos][yPos];
-    attackCoordinate.setAttacked();
+    attackCoordinate.setAttackedStatus();
     if (attackCoordinate.getOccupiedStatus()) {
       const attackedShip = attackCoordinate.getShipName();
       ships[attackedShip].increaseHitCount();
@@ -199,19 +206,53 @@ function gameboard() {
     checkShipSunkStatus,
     getShips,
     randomizeShipPlacement,
+    getBoard,
   };
 }
 
-function player(name) {
+function player(name, type) {
   const playerName = name;
+
+  const playerType = type;
 
   const board = gameboard();
 
+  const placeShip = (shipTypeName, xPos, yPos, direction) => {
+    board.placeShip(shipTypeName, xPos, yPos, direction);
+  };
+
+  const receiveAttack = (xPos, yPos) => {
+    board.receiveAttack(xPos, yPos);
+  };
+
+  const checkShipSunkStatus = () => {
+    board.checkShipSunkStatus();
+  };
+
+  const getShips = () => {
+    board.getShips();
+  };
+
+  const randomizeShipPlacement = () => {
+    board.randomizeShipPlacement();
+  };
+
+  const getPlayerType = () => playerType;
+
   const getPlayerName = () => playerName;
 
-  const getBoard = () => board;
+  const getBoard = () => board.getBoard();
 
-  return { getPlayerName, getBoard };
+  return {
+    getPlayerName,
+    getPlayerType,
+    placeShip,
+    receiveAttack,
+    checkShipSunkStatus,
+    getShips,
+    randomizeShipPlacement,
+    getBoard,
+  };
 }
 
 export { ship, gameboard, player };
