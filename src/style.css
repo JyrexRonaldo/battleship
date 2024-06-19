@@ -18,9 +18,6 @@ main {
   display: flex;
   align-items: center;
   flex-direction: column;
-  /* justify-content: flex-start; */
-  /* gap: 40px; */
-  /* padding-top: 80px; */
 }
 
 main > div {
@@ -166,4 +163,20 @@ main > div {
 
 .hidden {
   display: none;
+}
+/* mark shot at grid */
+.shot > div {
+ content: url(./assets/delete-icon.svg);
+}
+/* mark hit at enemy ship */
+.hit > div {
+  background-color: #006E19;
+}
+/* mark hit at player ship*/
+.attacked > div {
+ background-color: #F95D5E;
+}
+
+.sunked > div {
+  content: url(./assets/delete-icon-red.svg);
 }

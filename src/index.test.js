@@ -1,4 +1,4 @@
-import { ship } from "./game-components";
+import { ship, gameboard } from "./game-components";
 
 // import { gameController } from "./index";
 
@@ -20,6 +20,35 @@ describe("ship.isSunk()", () => {
 });
 
 
-// describe("gameController.getPlayers", () => {
-//   test("")
-// })
+describe("gameboard.checkShipSunkStatus", () => {
+  test("gameboard.checkShipSunkStatus should return true after all ships are sunk", () => {
+
+    const board = gameboard()
+    const ships = board.getShips()
+    ships.carrier.increaseHitCount();
+    ships.carrier.increaseHitCount();
+    ships.carrier.increaseHitCount();
+    ships.carrier.increaseHitCount();
+    ships.carrier.increaseHitCount();
+    ships.battleship.increaseHitCount();
+    ships.battleship.increaseHitCount();
+    ships.battleship.increaseHitCount();
+    ships.battleship.increaseHitCount();
+    ships.cruiser.increaseHitCount();
+    ships.cruiser.increaseHitCount();
+    ships.cruiser.increaseHitCount();
+    ships.submarine.increaseHitCount();
+    ships.submarine.increaseHitCount();
+    ships.submarine.increaseHitCount();
+    ships.destroyer.increaseHitCount();
+    ships.destroyer.increaseHitCount();
+    expect(board.checkShipSunkStatus()).toBe(true)
+
+
+
+  })
+  
+  
+  })
+
+
