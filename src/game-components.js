@@ -29,6 +29,8 @@ const coordinates = (xPos, yPos) => {
 
   let attacked = false;
 
+  let sunkStatus = false;
+
   const setShipName = (name) => {
     shipName = name;
   };
@@ -47,6 +49,12 @@ const coordinates = (xPos, yPos) => {
 
   const getAttackedStatus = () => attacked;
 
+  const setSunkStatus = () => {
+    sunkStatus = true;
+  };
+
+  const getSunkStatus = () => sunkStatus;
+
   return {
     getXCoordinate,
     getYCoordinate,
@@ -56,6 +64,8 @@ const coordinates = (xPos, yPos) => {
     getShipName,
     setAttackedStatus,
     getAttackedStatus,
+    setSunkStatus,
+    getSunkStatus,
   };
 };
 
@@ -143,6 +153,20 @@ function gameboard() {
     return message;
   };
 
+  const setSunkStatus = () => {
+    const boats = Object.keys(ships);
+    const sunkShipNames = boats.filter((boat) => ships[boat].isSunk());
+    sunkShipNames.forEach((boatName) => {
+      board.forEach((xArray) => {
+        xArray.forEach((coordinate) => {
+          if (boatName === coordinate.getShipName()) {
+            coordinate.setSunkStatus();
+          }
+        });
+      });
+    });
+  };
+
   const receiveAttack = (xPos, yPos) => {
     const attackCoordinate = board[xPos][yPos];
     attackCoordinate.setAttackedStatus();
@@ -150,6 +174,7 @@ function gameboard() {
       const attackedShip = attackCoordinate.getShipName();
       ships[attackedShip].increaseHitCount();
     }
+    setSunkStatus();
   };
 
   const checkShipSunkStatus = () => {
