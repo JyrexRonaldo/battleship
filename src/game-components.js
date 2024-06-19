@@ -104,6 +104,11 @@ function gameboard() {
     let available = null;
     if (direction) {
       for (let i = 0; i < length; i += 1) {
+        // console.log({xPos , i})
+        if (xPos + i === 10) {
+          available = false;
+          break;
+        }
         available = board[xPos + i][yPos].getOccupiedStatus() === false;
         if (available === false) {
           break;
@@ -111,6 +116,11 @@ function gameboard() {
       }
     } else {
       for (let i = 0; i < length; i += 1) {
+        // console.log({yPos, i})
+        if (yPos + i === 10) {
+          available = false;
+          break;
+        }
         available = board[xPos][yPos + i].getOccupiedStatus() === false;
         if (available === false) {
           break;
@@ -169,6 +179,8 @@ function gameboard() {
 
   const receiveAttack = (xPos, yPos) => {
     const attackCoordinate = board[xPos][yPos];
+    // console.log(attackCoordinate)
+    // attackCoordinate.setAttackedStatus();
     attackCoordinate.setAttackedStatus();
     if (attackCoordinate.getOccupiedStatus()) {
       const attackedShip = attackCoordinate.getShipName();
