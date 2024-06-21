@@ -81,10 +81,10 @@ function gameboard() {
 
   const ships = {
     carrier: ship(5, "carrier"),
-    battleship: ship(4, "battleship"),
-    cruiser: ship(3, "cruiser"),
-    submarine: ship(3, "submarine"),
-    destroyer: ship(2, "destroyer"),
+    // battleship: ship(4, "battleship"),
+    // cruiser: ship(3, "cruiser"),
+    // submarine: ship(3, "submarine"),
+    // destroyer: ship(2, "destroyer"),
   };
 
   const getBoard = () => board;
@@ -244,6 +244,7 @@ function gameboard() {
     getShips,
     randomizeShipPlacement,
     getBoard,
+    getRandomCoordinate,
   };
 }
 
@@ -262,13 +263,11 @@ function player(name, type) {
     board.receiveAttack(xPos, yPos);
   };
 
-  const checkShipSunkStatus = () => {
-    board.checkShipSunkStatus();
-  };
+  const checkShipSunkStatus = () => board.checkShipSunkStatus();
 
-  const getShips = () => {
-    board.getShips();
-  };
+
+  const getShips = () => board.getShips();
+  
 
   const randomizeShipPlacement = () => {
     board.randomizeShipPlacement();
@@ -280,6 +279,8 @@ function player(name, type) {
 
   const getBoard = () => board.getBoard();
 
+  const getRandomCoordinate = () => board.getRandomCoordinate()
+
   return {
     getPlayerName,
     getPlayerType,
@@ -289,6 +290,7 @@ function player(name, type) {
     getShips,
     randomizeShipPlacement,
     getBoard,
+    getRandomCoordinate
   };
 }
 

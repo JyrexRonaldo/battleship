@@ -167,7 +167,8 @@ main > div {
 }
 /* mark shot at grid */
 .shot {
- content: url(./assets/delete-icon.svg);
+ /* content: url(./assets/delete-icon.svg); */
+ content: url(./assets/delete-icon-red.svg);
 }
 /* mark hit at enemy ship */
 .hit {

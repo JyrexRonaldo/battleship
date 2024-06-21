@@ -22,9 +22,8 @@ describe("ship.isSunk()", () => {
 
 describe("gameboard.checkShipSunkStatus", () => {
   test("gameboard.checkShipSunkStatus should return true after all ships are sunk", () => {
-
-    const board = gameboard()
-    const ships = board.getShips()
+    const board = gameboard();
+    const ships = board.getShips();
     ships.carrier.increaseHitCount();
     ships.carrier.increaseHitCount();
     ships.carrier.increaseHitCount();
@@ -42,13 +41,30 @@ describe("gameboard.checkShipSunkStatus", () => {
     ships.submarine.increaseHitCount();
     ships.destroyer.increaseHitCount();
     ships.destroyer.increaseHitCount();
-    expect(board.checkShipSunkStatus()).toBe(true)
+    expect(board.checkShipSunkStatus()).toBe(true);
+  });
+});
 
 
+// describe("gameboard.getShips", () => {
+//   test("gameboard.getShips should return the initialized ship object in the gameboard factory", () => {
+//     const ships = {
+//       carrier: ship(5, "carrier"),
+//       battleship: ship(4, "battleship"),
+//       cruiser: ship(3, "cruiser"),
+//       submarine: ship(3, "submarine"),
+//       destroyer: ship(2, "destroyer"),
+//     };
 
-  })
-  
-  
-  })
+//     const board = gameboard()
 
-
+//     // expect(board.getShips()).toEqual(ships)
+//   expect(board.getShips()).toEqual({
+//     carrier: ship(5, "carrier"),
+//     battleship: ship(4, "battleship"),
+//     cruiser: ship(3, "cruiser"),
+//     submarine: ship(3, "submarine"),
+//     destroyer: ship(2, "destroyer"),
+//   });
+//   })
+// })
