@@ -81,10 +81,10 @@ function gameboard() {
 
   const ships = {
     carrier: ship(5, "carrier"),
-    // battleship: ship(4, "battleship"),
-    // cruiser: ship(3, "cruiser"),
-    // submarine: ship(3, "submarine"),
-    // destroyer: ship(2, "destroyer"),
+    battleship: ship(4, "battleship"),
+    cruiser: ship(3, "cruiser"),
+    submarine: ship(3, "submarine"),
+    destroyer: ship(2, "destroyer"),
   };
 
   const getBoard = () => board;

@@ -32,8 +32,8 @@ const gameController = (function gameController() {
 
   const getActiveOpponent = () => activeOpponent;
 
-  let x = 0
-  const y = 0
+//   let x = 0
+//   const y = 0
 
   const playRound = (xPos, yPos) => {
     //   gameStatus = `${activePlayer.getPlayerName()}'s turn`;
@@ -52,21 +52,21 @@ const gameController = (function gameController() {
     switchActivePlayer();
     gameStatus = `${activePlayer.getPlayerName()}'s turn`;
     if (activePlayer.getPlayerType() === "computer") {
-    //   let randomXCoordinate = null;
-    //   let randomYCoordinate = null;
+      let randomXCoordinate = null;
+      let randomYCoordinate = null;
 
-    //   do {
-    //     randomXCoordinate = activePlayer.getRandomCoordinate();
-    //     randomYCoordinate = activePlayer.getRandomCoordinate();
-    //   } while (
-    //     activeOpponent
-    //       .getBoard()
-    //       [randomXCoordinate][randomYCoordinate].getAttackedStatus() === true
-    //   );
+      do {
+        randomXCoordinate = activePlayer.getRandomCoordinate();
+        randomYCoordinate = activePlayer.getRandomCoordinate();
+      } while (
+        activeOpponent
+          .getBoard()
+          [randomXCoordinate][randomYCoordinate].getAttackedStatus() === true
+      );
       
-    //   playRound(randomXCoordinate, randomYCoordinate);
-      playRound(x, y);
-      x += 1
+      playRound(randomXCoordinate, randomYCoordinate);
+    //   playRound(x, y);
+    //   x += 1
 
     }
   };
@@ -175,9 +175,26 @@ const screenController = (function screenController() {
         const coordinateDiv = document.createElement("div");
         coordinateDiv.dataset.xCoordinate = coordinate.getXCoordinate();
         coordinateDiv.dataset.yCoordinate = coordinate.getYCoordinate();
-        if (coordinate.getAttackedStatus() === true) {
+        if (coordinate.getAttackedStatus()) {
           coordinateDiv.classList.add("shot");
         }
+
+        if (coordinate.getSunkStatus()) {
+            coordinateDiv.classList.replace("shot", "sunk");
+        }
+        
+        if (coordinate.getAttackedStatus() && coordinate.getShipName()) {
+            // coordinateDiv.classList.add("shot");
+
+            if (containerCode === 1) {
+                coordinateDiv.classList.replace("shot", "attacked");
+            } else {
+                coordinateDiv.classList.replace("shot", "hit");
+            }
+        }
+
+        
+
         if (containerCode === 1) {
           if (coordinate.getShipName()) {
             coordinateDiv.dataset.shipName = coordinate.getShipName();
@@ -191,15 +208,16 @@ const screenController = (function screenController() {
   };
 
 
-  playerOne.placeShip("carrier", 0, 0, true); // 5
+//   playerOne.placeShip("carrier", 0, 0, true); // 5
     // playerOne.placeShip("destroyer", 2, 5, true); // 2
     // playerOne.placeShip("battleship", 2, 2, true); // 4
     // playerOne.placeShip("cruiser", 2, 3, true); // 3
     // playerOne.placeShip("submarine", 2, 4, true); // 3
 
-    playerTwo.placeShip("carrier", 0, 0, true); // 5
+    // playerTwo.placeShip("carrier", 0, 0, true); // 5
 
-    // playerOne.randomizeShipPlacement();
+    playerOne.randomizeShipPlacement();
+    playerTwo.randomizeShipPlacement();
 
   updateGameboard(playerOne, playerOneGrid, 1);
   updateGameboard(playerTwo, playerTwoGrid, 2);
@@ -209,7 +227,7 @@ const screenController = (function screenController() {
   // }
 
   // console.log(enemyCoordinateDiv.outerHTML)
-  main.addEventListener("click", (e) => {
+main.addEventListener("click", (e) => {
     // console.log(e.target);
     // console.log(e.target.parentNode.parentNode.parentNode);
     
@@ -231,18 +249,23 @@ const screenController = (function screenController() {
       
       setTimeout(() => {
           updateGameboard(playerOne, playerOneGrid, 1);
-          gameStatusDiv.textContent = `${playerOne.getPlayerName()}'s turn`
+              gameStatusDiv.textContent = `${playerOne.getPlayerName()}'s turn`
           if (gameController.isGameOver()) {
             gameStatusDiv.textContent = gameController.getGameStatus()
         }
         }, 500)
         
-        
+    
         //   console.log(playerTwo)
         //   console.log(playerTwo.getBoard())
         //   console.log(playerTwo.getShips())
         //   console.log(gameController.getWinningMessage())
-        gameStatusDiv.textContent = `${playerTwo.getPlayerName()}'s turn`
+        
+        if (e.target.classList.value === '') {
+            gameStatusDiv.textContent = `${playerTwo.getPlayerName()}'s turn`    
+        }
+        
+        // gameStatusDiv.textContent = `${playerTwo.getPlayerName()}'s turn`
         updateGameboard(playerTwo, playerTwoGrid, 2);
     //   if (gameController.getWinningMessage()) {
     //     gameStatusDiv.textContent = gameController.getWinningMessage()
@@ -254,7 +277,9 @@ const screenController = (function screenController() {
         gameStatusDiv.textContent = gameController.getGameStatus()
     }
     }
-  });
+});
+
+
 })();
 
 export { gameController, screenController };

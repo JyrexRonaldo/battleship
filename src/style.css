@@ -176,12 +176,12 @@ main > div {
 }
 /* mark hit at enemy ship */
 .hit {
-  background-color: #006E19;
+  /* background-color: #006E19; */
   content: url(./assets/delete-icon.svg);
 }
 /* mark hit at player ship */
 .attacked  {
- background-color: #F95D5E;
+ /* background-color: #F95D5E; */
  content: url(./assets/delete-icon.svg);
 }
 
