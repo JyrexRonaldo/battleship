@@ -181,7 +181,7 @@ const screenController = (function screenController() {
         if (containerCode === 1) {
           if (coordinate.getShipName()) {
             coordinateDiv.dataset.shipName = coordinate.getShipName();
-            coordinateDiv.style.backgroundColor = "blue";
+            coordinateDiv.style.backgroundColor = "#5F5F5F";
           }
           
         }
@@ -197,6 +197,7 @@ const screenController = (function screenController() {
     // playerOne.placeShip("cruiser", 2, 3, true); // 3
     // playerOne.placeShip("submarine", 2, 4, true); // 3
 
+    playerTwo.placeShip("carrier", 0, 0, true); // 5
 
     // playerOne.randomizeShipPlacement();
 
@@ -246,6 +247,12 @@ const screenController = (function screenController() {
     //   if (gameController.getWinningMessage()) {
     //     gameStatusDiv.textContent = gameController.getWinningMessage()
     //   }
+    if (gameController.isGameOver()) {
+        if (gameController.getActivePlayer() === playerTwo) {
+            return
+        }
+        gameStatusDiv.textContent = gameController.getGameStatus()
+    }
     }
   });
 })();
