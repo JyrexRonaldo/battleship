@@ -131,6 +131,244 @@ function gameboard() {
     return available;
   };
 
+  const spaceOutShipsHorizontally = (xPos, yPos, length) => {
+
+    if (board[xPos-1] && board[xPos-1][yPos-1]) {
+      const rearLeftCorner = board[xPos-1][yPos-1]  
+      if (rearLeftCorner) {
+        rearLeftCorner.setOccupiedStatus()
+      }
+    }
+    // const rearLeftCorner = board[xPos-1][yPos-1]
+
+    // if (rearLeftCorner) {
+    //   rearLeftCorner.setOccupiedStatus()
+    // }
+
+    if (board[xPos-1] && board[xPos-1][yPos]) {
+      const rear = board[xPos-1][yPos]
+
+    if (rear) {
+      rear.setOccupiedStatus()
+    }
+    }
+
+    // const rear = board[xPos-1][yPos]
+
+    // if (rear) {
+    //   rear.setOccupiedStatus()
+    // }
+
+    if (board[xPos-1]&& board[xPos-1][yPos+1]) {
+      const rearRightCorner = board[xPos-1][yPos+1]
+
+    if (rearRightCorner) {
+      rearRightCorner.setOccupiedStatus()
+    }
+    }
+
+    // const rearRightCorner = board[xPos-1][yPos+1]
+
+    // if (rearRightCorner) {
+    //   rearRightCorner.setOccupiedStatus()
+    // }
+
+    if ( board[xPos+length] &&  board[xPos+length][yPos-1]) {
+      const frontLeftCorner = board[xPos+length][yPos-1]
+    
+    if (frontLeftCorner) {
+      frontLeftCorner.setOccupiedStatus()
+    }
+    }
+
+    // const frontLeftCorner = board[xPos+length][yPos-1]
+    
+    // if (frontLeftCorner) {
+    //   frontLeftCorner.setOccupiedStatus()
+    // }
+
+    
+    if (board[xPos + length] && board[xPos + length][yPos]) {
+      const front = board[xPos + length][yPos]
+
+    if (front) {
+      front.setOccupiedStatus()
+    }
+    }
+    
+    // const front = board[xPos + length][yPos]
+
+    // if (front) {
+    //   front.setOccupiedStatus()
+    // }
+
+
+    if (board[xPos + length] && board[xPos + length][yPos+1]) {
+      const frontRightCorner = board[xPos + length][yPos+1]
+
+    if (frontRightCorner) {
+      frontRightCorner.setOccupiedStatus()
+    }
+    }
+
+    // const frontRightCorner = board[xPos + length][yPos+1]
+
+    // if (frontRightCorner) {
+    //   frontRightCorner.setOccupiedStatus()
+    // }
+
+    const leftSideArray = []
+    const rightSideArray = []
+    for (let i = 0; i < length; i += 1) {
+
+      if (board[xPos + i] && board[xPos + i][yPos - 1]) {
+        leftSideArray.push(board[xPos + i][yPos - 1])  
+      }
+
+
+      if (board[xPos + i] && board[xPos + i][yPos + 1]) {
+        rightSideArray.push(board[xPos + i][yPos + 1])
+      }
+
+      // leftSideArray.push(board[xPos + i][yPos - 1])
+      // rightSideArray.push(board[xPos + i][yPos + 1])
+    }
+
+    leftSideArray.forEach((coordinate) => {
+      if (coordinate) {
+        coordinate.setOccupiedStatus()
+      }
+    })
+
+    rightSideArray.forEach((coordinate) => {
+      if (coordinate) {
+        coordinate.setOccupiedStatus()
+      }
+    })
+
+  }
+
+  const spaceOutShipsVertically = (xPos, yPos, length) => {
+   if (board[xPos+1] && board[xPos+1][yPos-1]) {
+    const rearLeftCorner = board[xPos+1][yPos-1]
+
+    if (rearLeftCorner) {
+      rearLeftCorner.setOccupiedStatus()
+    }
+   }
+   
+    // const rearLeftCorner = board[xPos+1][yPos-1]
+
+    // if (rearLeftCorner) {
+    //   rearLeftCorner.setOccupiedStatus()
+    // }
+
+   if (board[xPos] && board[xPos][yPos-1]) {
+    const rear = board[xPos][yPos-1]
+
+    if (rear) {
+      rear.setOccupiedStatus()
+    }
+   }
+
+    // const rear = board[xPos][yPos-1]
+
+    // if (rear) {
+    //   rear.setOccupiedStatus()
+    // }
+
+    if (board[xPos-1] && board[xPos-1][yPos-1]) {
+      const rearRightCorner = board[xPos-1][yPos-1]
+
+    if (rearRightCorner) {
+      rearRightCorner.setOccupiedStatus()
+    }
+    }
+    
+    // const rearRightCorner = board[xPos-1][yPos-1]
+
+    // if (rearRightCorner) {
+    //   rearRightCorner.setOccupiedStatus()
+    // }
+
+
+    if (board[xPos+1] && board[xPos+1][yPos + length]) {
+      const frontLeftCorner = board[xPos+1][yPos + length]
+
+    if (frontLeftCorner) {
+      frontLeftCorner.setOccupiedStatus()
+    }
+    }
+
+    // const frontLeftCorner = board[xPos+1][yPos + length]
+
+    // if (frontLeftCorner) {
+    //   frontLeftCorner.setOccupiedStatus()
+    // }
+
+
+    if (board[xPos] && board[xPos][yPos + length]) {
+      const front = board[xPos][yPos + length]
+
+    if (front) {
+      front.setOccupiedStatus()
+    }  
+    }
+
+    // const front = board[xPos][yPos + length]
+
+    // if (front) {
+    //   front.setOccupiedStatus()
+    // }
+
+    if (board[xPos - 1] && board[xPos - 1][yPos+length]) {
+      const frontRightCorner = board[xPos - 1][yPos+length]
+
+    if (frontRightCorner) {
+      frontRightCorner.setOccupiedStatus()
+    }  
+    }
+
+    // const frontRightCorner = board[xPos - 1][yPos+length]
+
+    // if (frontRightCorner) {
+    //   frontRightCorner.setOccupiedStatus()
+    // }
+
+    const leftSideArray = []
+    const rightSideArray = []
+    for (let i = 0; i < length; i += 1) {
+
+      if (board[xPos + 1] && board[xPos + 1][yPos + i]) {
+        leftSideArray.push(board[xPos + 1][yPos + i])  
+      }
+
+      if (board[xPos - 1] && board[xPos - 1][yPos + i]) {
+        rightSideArray.push(board[xPos - 1][yPos + i])  
+      }
+
+
+      // leftSideArray.push(board[xPos + 1][yPos + i])
+      // rightSideArray.push(board[xPos - 1][yPos + i])
+    }
+
+    leftSideArray.forEach((coordinate) => {
+      if (coordinate) {
+        coordinate.setOccupiedStatus()
+      }
+    })
+
+    rightSideArray.forEach((coordinate) => {
+      if (coordinate) {
+        coordinate.setOccupiedStatus()
+      }
+    })
+
+  }
+
+
+
+
   const placeShip = (shipTypeName, xPos, yPos, direction) => {
     const shipType = ships[shipTypeName];
     const length = shipType.getShipLength();
@@ -150,11 +388,13 @@ function gameboard() {
           board[xPos + i][yPos].setOccupiedStatus();
           board[xPos + i][yPos].setShipName(shipType.getShipName());
         }
+        spaceOutShipsHorizontally(xPos, yPos, length)
       } else {
         for (let i = 0; i < length; i += 1) {
           board[xPos][yPos + i].setOccupiedStatus();
           board[xPos][yPos + i].setShipName(shipType.getShipName());
         }
+        spaceOutShipsVertically(xPos, yPos, length)
       }
     } else {
       message = "can't place ship";

@@ -167,7 +167,7 @@ const screenController = (function screenController() {
   );
   const [playerOne, playerTwo] = gameController.getPlayers();
 
-  const updateGameboard = (currentPlayer, container, containerCode) => {
+const updateGameboard = (currentPlayer, container, containerCode) => {
     const coordinateContainerDiv = container;
     coordinateContainerDiv.innerHTML = "";
     currentPlayer.getBoard().forEach((xArray) => {
@@ -183,7 +183,7 @@ const screenController = (function screenController() {
             coordinateDiv.classList.replace("shot", "sunk");
         }
         
-        if (coordinate.getAttackedStatus() && coordinate.getShipName()) {
+        if (coordinate.getShipName()) {
             // coordinateDiv.classList.add("shot");
 
             if (containerCode === 1) {
@@ -205,7 +205,7 @@ const screenController = (function screenController() {
         coordinateContainerDiv.appendChild(coordinateDiv);
       });
     });
-  };
+};
 
 
 //   playerOne.placeShip("carrier", 0, 0, true); // 5
