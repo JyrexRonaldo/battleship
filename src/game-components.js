@@ -23,6 +23,8 @@ const coordinates = (xPos, yPos) => {
   const getXCoordinate = () => xCoordinate;
   const getYCoordinate = () => yCoordinate;
 
+  let spaceAvailability = true;
+
   let shipName = null;
 
   let occupied = false;
@@ -55,6 +57,12 @@ const coordinates = (xPos, yPos) => {
 
   const getSunkStatus = () => sunkStatus;
 
+  const getSpaceAvailability = () => spaceAvailability;
+
+  const setSpaceAvailability = () => {
+    spaceAvailability = false;
+  };
+
   return {
     getXCoordinate,
     getYCoordinate,
@@ -66,6 +74,8 @@ const coordinates = (xPos, yPos) => {
     getAttackedStatus,
     setSunkStatus,
     getSunkStatus,
+    setSpaceAvailability,
+    getSpaceAvailability,
   };
 };
 
@@ -109,7 +119,7 @@ function gameboard() {
           available = false;
           break;
         }
-        available = board[xPos + i][yPos].getOccupiedStatus() === false;
+        available = board[xPos + i][yPos].getSpaceAvailability();
         if (available === false) {
           break;
         }
@@ -121,7 +131,7 @@ function gameboard() {
           available = false;
           break;
         }
-        available = board[xPos][yPos + i].getOccupiedStatus() === false;
+        available = board[xPos][yPos + i].getSpaceAvailability();
         if (available === false) {
           break;
         }
@@ -132,242 +142,151 @@ function gameboard() {
   };
 
   const spaceOutShipsHorizontally = (xPos, yPos, length) => {
-
-    if (board[xPos-1] && board[xPos-1][yPos-1]) {
-      const rearLeftCorner = board[xPos-1][yPos-1]  
+    if (board[xPos - 1] && board[xPos - 1][yPos - 1]) {
+      const rearLeftCorner = board[xPos - 1][yPos - 1];
       if (rearLeftCorner) {
-        rearLeftCorner.setOccupiedStatus()
+        rearLeftCorner.setSpaceAvailability();
       }
     }
-    // const rearLeftCorner = board[xPos-1][yPos-1]
 
-    // if (rearLeftCorner) {
-    //   rearLeftCorner.setOccupiedStatus()
-    // }
+    if (board[xPos - 1] && board[xPos - 1][yPos]) {
+      const rear = board[xPos - 1][yPos];
 
-    if (board[xPos-1] && board[xPos-1][yPos]) {
-      const rear = board[xPos-1][yPos]
-
-    if (rear) {
-      rear.setOccupiedStatus()
-    }
+      if (rear) {
+        rear.setSpaceAvailability();
+      }
     }
 
-    // const rear = board[xPos-1][yPos]
+    if (board[xPos - 1] && board[xPos - 1][yPos + 1]) {
+      const rearRightCorner = board[xPos - 1][yPos + 1];
 
-    // if (rear) {
-    //   rear.setOccupiedStatus()
-    // }
-
-    if (board[xPos-1]&& board[xPos-1][yPos+1]) {
-      const rearRightCorner = board[xPos-1][yPos+1]
-
-    if (rearRightCorner) {
-      rearRightCorner.setOccupiedStatus()
-    }
+      if (rearRightCorner) {
+        rearRightCorner.setSpaceAvailability();
+      }
     }
 
-    // const rearRightCorner = board[xPos-1][yPos+1]
+    if (board[xPos + length] && board[xPos + length][yPos - 1]) {
+      const frontLeftCorner = board[xPos + length][yPos - 1];
 
-    // if (rearRightCorner) {
-    //   rearRightCorner.setOccupiedStatus()
-    // }
-
-    if ( board[xPos+length] &&  board[xPos+length][yPos-1]) {
-      const frontLeftCorner = board[xPos+length][yPos-1]
-    
-    if (frontLeftCorner) {
-      frontLeftCorner.setOccupiedStatus()
-    }
+      if (frontLeftCorner) {
+        frontLeftCorner.setSpaceAvailability();
+      }
     }
 
-    // const frontLeftCorner = board[xPos+length][yPos-1]
-    
-    // if (frontLeftCorner) {
-    //   frontLeftCorner.setOccupiedStatus()
-    // }
-
-    
     if (board[xPos + length] && board[xPos + length][yPos]) {
-      const front = board[xPos + length][yPos]
+      const front = board[xPos + length][yPos];
 
-    if (front) {
-      front.setOccupiedStatus()
-    }
-    }
-    
-    // const front = board[xPos + length][yPos]
-
-    // if (front) {
-    //   front.setOccupiedStatus()
-    // }
-
-
-    if (board[xPos + length] && board[xPos + length][yPos+1]) {
-      const frontRightCorner = board[xPos + length][yPos+1]
-
-    if (frontRightCorner) {
-      frontRightCorner.setOccupiedStatus()
-    }
-    }
-
-    // const frontRightCorner = board[xPos + length][yPos+1]
-
-    // if (frontRightCorner) {
-    //   frontRightCorner.setOccupiedStatus()
-    // }
-
-    const leftSideArray = []
-    const rightSideArray = []
-    for (let i = 0; i < length; i += 1) {
-
-      if (board[xPos + i] && board[xPos + i][yPos - 1]) {
-        leftSideArray.push(board[xPos + i][yPos - 1])  
+      if (front) {
+        front.setSpaceAvailability();
       }
+    }
 
+    if (board[xPos + length] && board[xPos + length][yPos + 1]) {
+      const frontRightCorner = board[xPos + length][yPos + 1];
+
+      if (frontRightCorner) {
+        frontRightCorner.setSpaceAvailability();
+      }
+    }
+
+    const leftSideArray = [];
+    const rightSideArray = [];
+    for (let i = 0; i < length; i += 1) {
+      if (board[xPos + i] && board[xPos + i][yPos - 1]) {
+        leftSideArray.push(board[xPos + i][yPos - 1]);
+      }
 
       if (board[xPos + i] && board[xPos + i][yPos + 1]) {
-        rightSideArray.push(board[xPos + i][yPos + 1])
+        rightSideArray.push(board[xPos + i][yPos + 1]);
       }
-
-      // leftSideArray.push(board[xPos + i][yPos - 1])
-      // rightSideArray.push(board[xPos + i][yPos + 1])
     }
 
     leftSideArray.forEach((coordinate) => {
       if (coordinate) {
-        coordinate.setOccupiedStatus()
+        coordinate.setSpaceAvailability();
       }
-    })
+    });
 
     rightSideArray.forEach((coordinate) => {
       if (coordinate) {
-        coordinate.setOccupiedStatus()
+        coordinate.setSpaceAvailability();
       }
-    })
-
-  }
+    });
+  };
 
   const spaceOutShipsVertically = (xPos, yPos, length) => {
-   if (board[xPos+1] && board[xPos+1][yPos-1]) {
-    const rearLeftCorner = board[xPos+1][yPos-1]
+    if (board[xPos + 1] && board[xPos + 1][yPos - 1]) {
+      const rearLeftCorner = board[xPos + 1][yPos - 1];
 
-    if (rearLeftCorner) {
-      rearLeftCorner.setOccupiedStatus()
-    }
-   }
-   
-    // const rearLeftCorner = board[xPos+1][yPos-1]
-
-    // if (rearLeftCorner) {
-    //   rearLeftCorner.setOccupiedStatus()
-    // }
-
-   if (board[xPos] && board[xPos][yPos-1]) {
-    const rear = board[xPos][yPos-1]
-
-    if (rear) {
-      rear.setOccupiedStatus()
-    }
-   }
-
-    // const rear = board[xPos][yPos-1]
-
-    // if (rear) {
-    //   rear.setOccupiedStatus()
-    // }
-
-    if (board[xPos-1] && board[xPos-1][yPos-1]) {
-      const rearRightCorner = board[xPos-1][yPos-1]
-
-    if (rearRightCorner) {
-      rearRightCorner.setOccupiedStatus()
-    }
-    }
-    
-    // const rearRightCorner = board[xPos-1][yPos-1]
-
-    // if (rearRightCorner) {
-    //   rearRightCorner.setOccupiedStatus()
-    // }
-
-
-    if (board[xPos+1] && board[xPos+1][yPos + length]) {
-      const frontLeftCorner = board[xPos+1][yPos + length]
-
-    if (frontLeftCorner) {
-      frontLeftCorner.setOccupiedStatus()
-    }
+      if (rearLeftCorner) {
+        rearLeftCorner.setSpaceAvailability();
+      }
     }
 
-    // const frontLeftCorner = board[xPos+1][yPos + length]
+    if (board[xPos] && board[xPos][yPos - 1]) {
+      const rear = board[xPos][yPos - 1];
 
-    // if (frontLeftCorner) {
-    //   frontLeftCorner.setOccupiedStatus()
-    // }
+      if (rear) {
+        rear.setSpaceAvailability();
+      }
+    }
 
+    if (board[xPos - 1] && board[xPos - 1][yPos - 1]) {
+      const rearRightCorner = board[xPos - 1][yPos - 1];
+
+      if (rearRightCorner) {
+        rearRightCorner.setSpaceAvailability();
+      }
+    }
+
+    if (board[xPos + 1] && board[xPos + 1][yPos + length]) {
+      const frontLeftCorner = board[xPos + 1][yPos + length];
+
+      if (frontLeftCorner) {
+        frontLeftCorner.setSpaceAvailability();
+      }
+    }
 
     if (board[xPos] && board[xPos][yPos + length]) {
-      const front = board[xPos][yPos + length]
+      const front = board[xPos][yPos + length];
 
-    if (front) {
-      front.setOccupiedStatus()
-    }  
+      if (front) {
+        front.setSpaceAvailability();
+      }
     }
 
-    // const front = board[xPos][yPos + length]
+    if (board[xPos - 1] && board[xPos - 1][yPos + length]) {
+      const frontRightCorner = board[xPos - 1][yPos + length];
 
-    // if (front) {
-    //   front.setOccupiedStatus()
-    // }
-
-    if (board[xPos - 1] && board[xPos - 1][yPos+length]) {
-      const frontRightCorner = board[xPos - 1][yPos+length]
-
-    if (frontRightCorner) {
-      frontRightCorner.setOccupiedStatus()
-    }  
+      if (frontRightCorner) {
+        frontRightCorner.setSpaceAvailability();
+      }
     }
 
-    // const frontRightCorner = board[xPos - 1][yPos+length]
-
-    // if (frontRightCorner) {
-    //   frontRightCorner.setOccupiedStatus()
-    // }
-
-    const leftSideArray = []
-    const rightSideArray = []
+    const leftSideArray = [];
+    const rightSideArray = [];
     for (let i = 0; i < length; i += 1) {
-
       if (board[xPos + 1] && board[xPos + 1][yPos + i]) {
-        leftSideArray.push(board[xPos + 1][yPos + i])  
+        leftSideArray.push(board[xPos + 1][yPos + i]);
       }
 
       if (board[xPos - 1] && board[xPos - 1][yPos + i]) {
-        rightSideArray.push(board[xPos - 1][yPos + i])  
+        rightSideArray.push(board[xPos - 1][yPos + i]);
       }
-
-
-      // leftSideArray.push(board[xPos + 1][yPos + i])
-      // rightSideArray.push(board[xPos - 1][yPos + i])
     }
 
     leftSideArray.forEach((coordinate) => {
       if (coordinate) {
-        coordinate.setOccupiedStatus()
+        coordinate.setSpaceAvailability();
       }
-    })
+    });
 
     rightSideArray.forEach((coordinate) => {
       if (coordinate) {
-        coordinate.setOccupiedStatus()
+        coordinate.setSpaceAvailability();
       }
-    })
-
-  }
-
-
-
+    });
+  };
 
   const placeShip = (shipTypeName, xPos, yPos, direction) => {
     const shipType = ships[shipTypeName];
@@ -386,15 +305,17 @@ function gameboard() {
       if (direction) {
         for (let i = 0; i < length; i += 1) {
           board[xPos + i][yPos].setOccupiedStatus();
+          board[xPos + i][yPos].setSpaceAvailability();
           board[xPos + i][yPos].setShipName(shipType.getShipName());
         }
-        spaceOutShipsHorizontally(xPos, yPos, length)
+        spaceOutShipsHorizontally(xPos, yPos, length);
       } else {
         for (let i = 0; i < length; i += 1) {
           board[xPos][yPos + i].setOccupiedStatus();
+          board[xPos][yPos + i].setSpaceAvailability();
           board[xPos][yPos + i].setShipName(shipType.getShipName());
         }
-        spaceOutShipsVertically(xPos, yPos, length)
+        spaceOutShipsVertically(xPos, yPos, length);
       }
     } else {
       message = "can't place ship";
@@ -419,8 +340,6 @@ function gameboard() {
 
   const receiveAttack = (xPos, yPos) => {
     const attackCoordinate = board[xPos][yPos];
-    // console.log(attackCoordinate)
-    // attackCoordinate.setAttackedStatus();
     attackCoordinate.setAttackedStatus();
     if (attackCoordinate.getOccupiedStatus()) {
       const attackedShip = attackCoordinate.getShipName();
@@ -505,9 +424,7 @@ function player(name, type) {
 
   const checkShipSunkStatus = () => board.checkShipSunkStatus();
 
-
   const getShips = () => board.getShips();
-  
 
   const randomizeShipPlacement = () => {
     board.randomizeShipPlacement();
@@ -519,7 +436,7 @@ function player(name, type) {
 
   const getBoard = () => board.getBoard();
 
-  const getRandomCoordinate = () => board.getRandomCoordinate()
+  const getRandomCoordinate = () => board.getRandomCoordinate();
 
   return {
     getPlayerName,
@@ -530,7 +447,7 @@ function player(name, type) {
     getShips,
     randomizeShipPlacement,
     getBoard,
-    getRandomCoordinate
+    getRandomCoordinate,
   };
 }
 
