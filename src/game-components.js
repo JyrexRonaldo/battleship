@@ -80,12 +80,23 @@ const coordinates = (xPos, yPos) => {
 };
 
 function gameboard() {
-  const board = [];
+  let board = [];
 
   for (let x = 0; x < 10; x += 1) {
     board[x] = [];
     for (let y = 0; y < 10; y += 1) {
       board[x].push(coordinates(x, y));
+    }
+  }
+
+  const resetBoard = () => {
+    board = []
+
+    for (let x = 0; x < 10; x += 1) {
+      board[x] = [];
+      for (let y = 0; y < 10; y += 1) {
+        board[x].push(coordinates(x, y));
+      }
     }
   }
 
@@ -368,6 +379,7 @@ function gameboard() {
   };
 
   const randomizeShipPlacement = () => {
+    resetBoard()
     const shipNames = Object.keys(ships);
     shipNames.forEach((shipName) => {
       let randomXCoordinate = null;
@@ -404,6 +416,7 @@ function gameboard() {
     randomizeShipPlacement,
     getBoard,
     getRandomCoordinate,
+    resetBoard,
   };
 }
 
@@ -438,6 +451,10 @@ function player(name, type) {
 
   const getRandomCoordinate = () => board.getRandomCoordinate();
 
+  const resetBoard = () => {
+    board.resetBoard()
+  }
+
   return {
     getPlayerName,
     getPlayerType,
@@ -448,6 +465,7 @@ function player(name, type) {
     randomizeShipPlacement,
     getBoard,
     getRandomCoordinate,
+    resetBoard,
   };
 }
 
