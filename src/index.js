@@ -33,7 +33,7 @@ const gameController = (function gameController() {
       return;
     }
     activeOpponent.receiveAttack(xPos, yPos);
-    if (activeOpponent.checkShipSunkStatus()) {
+    if (activeOpponent.checkFleetSunkStatus()) {
       gameStatus = `${activePlayer.getPlayerName()} won!`;
       gameOver = true;
       return;
@@ -61,7 +61,9 @@ const gameController = (function gameController() {
 
   const resetGame = () => {
     activePlayer.resetBoard();
+    activePlayer.resetShips()
     activeOpponent.resetBoard();
+    activeOpponent.resetShips()
     gameOver = false;
     gameStatus = `${activePlayer.getPlayerName()}'s turn `;
     [activePlayer, activeOpponent] = players;
@@ -207,6 +209,7 @@ const screenController = (function screenController() {
       playerTwo.randomizeShipPlacement();
       updateGameboard(playerOne, playerOneGrid, 1);
       updateGameboard(playerTwo, playerTwoGrid, 2);
+      gameStatusDiv.textContent = gameController.getGameStatus();
     }
 
     if (e.target.textContent === "Randomize ships!") {

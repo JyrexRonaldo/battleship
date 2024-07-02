@@ -100,13 +100,23 @@ function gameboard() {
     }
   }
 
-  const ships = {
+  let ships = {
     carrier: ship(5, "carrier"),
     battleship: ship(4, "battleship"),
     cruiser: ship(3, "cruiser"),
     submarine: ship(3, "submarine"),
     destroyer: ship(2, "destroyer"),
   };
+
+  const resetShips = () => {
+    ships = {
+      carrier: ship(5, "carrier"),
+      battleship: ship(4, "battleship"),
+      cruiser: ship(3, "cruiser"),
+      submarine: ship(3, "submarine"),
+      destroyer: ship(2, "destroyer"),
+    };   
+  }
 
   const getBoard = () => board;
 
@@ -125,7 +135,6 @@ function gameboard() {
     let available = null;
     if (direction) {
       for (let i = 0; i < length; i += 1) {
-        // console.log({xPos , i})
         if (xPos + i === 10) {
           available = false;
           break;
@@ -137,7 +146,6 @@ function gameboard() {
       }
     } else {
       for (let i = 0; i < length; i += 1) {
-        // console.log({yPos, i})
         if (yPos + i === 10) {
           available = false;
           break;
@@ -359,7 +367,7 @@ function gameboard() {
     setSunkStatus();
   };
 
-  const checkShipSunkStatus = () => {
+  const checkFleetSunkStatus = () => {
     const boats = Object.keys(ships);
     const sunkValues = boats.map((boat) => ships[boat].isSunk());
     if (sunkValues.includes(false)) {
@@ -411,12 +419,13 @@ function gameboard() {
   return {
     placeShip,
     receiveAttack,
-    checkShipSunkStatus,
+    checkFleetSunkStatus,
     getShips,
     randomizeShipPlacement,
     getBoard,
     getRandomCoordinate,
     resetBoard,
+    resetShips,
   };
 }
 
@@ -435,7 +444,7 @@ function player(name, type) {
     board.receiveAttack(xPos, yPos);
   };
 
-  const checkShipSunkStatus = () => board.checkShipSunkStatus();
+  const checkFleetSunkStatus = () => board.checkFleetSunkStatus();
 
   const getShips = () => board.getShips();
 
@@ -455,17 +464,22 @@ function player(name, type) {
     board.resetBoard()
   }
 
+  const resetShips = () => {
+    board.resetShips()
+  }
+
   return {
     getPlayerName,
     getPlayerType,
     placeShip,
     receiveAttack,
-    checkShipSunkStatus,
+    checkFleetSunkStatus,
     getShips,
     randomizeShipPlacement,
     getBoard,
     getRandomCoordinate,
     resetBoard,
+    resetShips,
   };
 }
 
