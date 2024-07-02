@@ -22,7 +22,7 @@ main {
 
 main > div {
   height: 100vh;
-  background-color: cyan;
+  /* background-color: cyan; */
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -139,6 +139,7 @@ main > div {
   width: 37px;
   height: 37px;
   border: 1px solid black;
+  background-color: #5F5F5F;
 }
 
 .ship-placement > .buttons, .battlefield + .buttons {

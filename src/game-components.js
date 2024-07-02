@@ -124,12 +124,14 @@ function gameboard() {
 
   const checkCoordinatesAvailability = (
     shipTypeName,
-    xPos,
-    yPos,
+    x,
+    y,
     direction
   ) => {
     const shipType = ships[shipTypeName];
     const length = shipType.getShipLength();
+    const xPos = +x;
+    const yPos = +y;
     // direction = true means horizontal direction
     // direction = false means vertical direction
     let available = null;
@@ -307,9 +309,11 @@ function gameboard() {
     });
   };
 
-  const placeShip = (shipTypeName, xPos, yPos, direction) => {
+  const placeShip = (shipTypeName, x, y, direction) => {
     const shipType = ships[shipTypeName];
     const length = shipType.getShipLength();
+    const xPos = +x;
+    const yPos = +y;
     const checkSpace = checkCoordinatesAvailability(
       shipTypeName,
       xPos,

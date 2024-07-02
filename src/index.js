@@ -61,9 +61,9 @@ const gameController = (function gameController() {
 
   const resetGame = () => {
     activePlayer.resetBoard();
-    activePlayer.resetShips()
+    activePlayer.resetShips();
     activeOpponent.resetBoard();
-    activeOpponent.resetShips()
+    activeOpponent.resetShips();
     gameOver = false;
     gameStatus = `${activePlayer.getPlayerName()}'s turn `;
     [activePlayer, activeOpponent] = players;
@@ -86,7 +86,6 @@ const screenController = (function screenController() {
   const gameStatusDiv = document.querySelector(
     "main > div:nth-child(3) .status"
   );
-  console.log("Here")
 
   const playerOneGrid = document.querySelector(
     ".battlefield .ocean-grid .coordinates"
@@ -154,13 +153,17 @@ const screenController = (function screenController() {
   };
 
   const setShipDirection = (e) => {
-    if (e.target.parentNode.getAttribute("class") === "rotate") {
+    if (e.target.parentNode.getAttribute("class").includes("rotate")) {
       shipDirection = true;
     } else {
       shipDirection = false;
     }
   };
-  playerTwo.randomizeShipPlacement();
+
+  // playerTwo.randomizeShipPlacement();
+
+  // playerOne.placeShip("carrier", 3, 1, false)
+
   main.addEventListener("click", (e) => {
     if (e.target.getAttribute("class") === "track-coord") {
       if (gameController.isGameOver()) {
@@ -200,7 +203,7 @@ const screenController = (function screenController() {
       e.target.textContent === "Place your ships!"
     ) {
       switchPage(1);
-      gameController.resetGame()
+      gameController.resetGame();
       updateGameboard(playerOne, playerOnePlacementGrid, 1);
     }
 
@@ -226,6 +229,25 @@ const screenController = (function screenController() {
       selectedShip = e.target.getAttribute("class");
       setShipDirection(e);
     }
+
+    if (e.target.getAttribute("class") !== null) {
+      if (e.target.getAttribute("class").includes("ocean-coord")) {
+        if (
+          e.target.parentNode.parentNode.parentNode.parentNode
+            .getAttribute("class")
+            .includes("ship-placement")
+        ) {
+          const xPos = e.target.dataset.xCoordinate;
+          const yPos = e.target.dataset.yCoordinate;
+          if (selectedShip !== null && shipDirection !== null) {
+            playerOne.placeShip(selectedShip, xPos, yPos, shipDirection);
+            selectedShip = null
+            shipDirection = null
+          }
+          updateGameboard(playerOne, playerOnePlacementGrid, 1);
+        }
+      }
+    }
   });
 
   shipDivs.forEach((ship) => {
@@ -234,9 +256,6 @@ const screenController = (function screenController() {
       selectedShip = ship.getAttribute("class");
       e.target.parentNode.classList.toggle("rotate");
       setShipDirection(e);
-
-      console.log(selectedShip);
-      console.log(shipDirection);
     });
   });
 })();
