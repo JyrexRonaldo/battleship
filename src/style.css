@@ -107,7 +107,7 @@ main > div {
 
 .ships {
   width: 407px;
-  height: 407px;
+  height: auto;
   border: 1px solid black;
 }
 
@@ -124,19 +124,18 @@ main > div {
   justify-content: center;
   gap: 30px;
   align-items: center;
-  padding: 0px 30px 60px;
-}
-
-.ships > div:nth-child(2) > div {
-  border: 1px solid black;
-}
-
-.ships > div:nth-child(2) > div:nth-child(1) {
-  rotate: 90deg;
-  margin: 0px 60px; 
+  padding: 0px 30px 40px;
 }
 
 .ships > div:nth-child(2) > div > div {
+  border: 1px solid black;
+}
+
+.rotate {
+  display: flex;
+}
+
+.ships > div:nth-child(2) >  div > div > div {
   width: 37px;
   height: 37px;
   border: 1px solid black;
@@ -165,23 +164,20 @@ main > div {
 .hidden {
   display: none;
 }
+
 /* mark shot at grid */
 .shot {
- /* content: url(./assets/delete-icon.svg); */
- /* content: url(./assets/delete-icon-red.svg); */
  content: url(./assets/circle-small.svg);
-
-
-
 }
+
+
 /* mark hit at enemy ship */
 .hit {
-  /* background-color: #006E19; */
   content: url(./assets/delete-icon.svg);
 }
+
 /* mark hit at player ship */
-.attacked  {
- /* background-color: #F95D5E; */
+.attacked  { 
  content: url(./assets/delete-icon.svg);
 }
 

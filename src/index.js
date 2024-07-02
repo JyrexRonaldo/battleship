@@ -8,11 +8,7 @@ const gameController = (function gameController() {
 
   const getPlayers = () => players;
 
-  let activePlayer = players[0];
-
-  let activeOpponent = players[1];
-
-  //   let winningMessage = null
+  let [activePlayer, activeOpponent] = players;
 
   let gameOver = false;
 
@@ -32,19 +28,13 @@ const gameController = (function gameController() {
 
   const getActiveOpponent = () => activeOpponent;
 
-  //   let x = 0
-  //   const y = 0
-
   const playRound = (xPos, yPos) => {
-    //   gameStatus = `${activePlayer.getPlayerName()}'s turn`;
     if (activeOpponent.getBoard()[xPos][yPos].getAttackedStatus() === true) {
       return;
     }
     activeOpponent.receiveAttack(xPos, yPos);
     if (activeOpponent.checkShipSunkStatus()) {
       gameStatus = `${activePlayer.getPlayerName()} won!`;
-      //   console.log(gameStatus)
-      //   winningMessage = `${activePlayer.getPlayerName} won!`;
       gameOver = true;
       return;
     }
@@ -63,16 +53,19 @@ const gameController = (function gameController() {
           .getBoard()
           [randomXCoordinate][randomYCoordinate].getAttackedStatus() === true
       );
-
       playRound(randomXCoordinate, randomYCoordinate);
-      //   playRound(x, y);
-      //   x += 1
     }
   };
 
   const getGameStatus = () => gameStatus;
 
-  //   const getWinningMessage = () => winningMessage
+  const resetGame = () => {
+    activePlayer.resetBoard();
+    activeOpponent.resetBoard();
+    gameOver = false;
+    gameStatus = `${activePlayer.getPlayerName()}'s turn `;
+    [activePlayer, activeOpponent] = players;
+  };
 
   return {
     getPlayers,
@@ -80,120 +73,35 @@ const gameController = (function gameController() {
     getActiveOpponent,
     playRound,
     getGameStatus,
-    // getWinningMessage,
     isGameOver,
+    resetGame,
   };
 })();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const screenController = (function screenController() {
   const main = document.querySelector("main");
-  const screens = [...main.querySelectorAll("div:not(div div)")]
-  console.log(screens)
+  const screens = [...main.querySelectorAll("div:not(div div)")];
   const gameStatusDiv = document.querySelector(
     "main > div:nth-child(3) .status"
   );
-  //   console.log(gameStatusDiv)
+  console.log("Here")
 
-  // const enemyCoordinateDiv = document.querySelector(".tracking-grid .coordinates")
   const playerOneGrid = document.querySelector(
     ".battlefield .ocean-grid .coordinates"
   );
   const playerTwoGrid = document.querySelector(
     ".battlefield .tracking-grid .coordinates"
   );
-  const playerOnePlacementGrid = document.querySelector(".ship-placement .ocean-grid .coordinates");
+  const playerOnePlacementGrid = document.querySelector(
+    ".ship-placement .ocean-grid .coordinates"
+  );
   const [playerOne, playerTwo] = gameController.getPlayers();
+  let selectedShip = null;
+  let shipDirection = null;
+  const shipDivs = document.querySelectorAll(".ships > div:nth-child(2) > div");
+  const shipNames = [
+    ...document.querySelectorAll(".ships > div:nth-child(2) > div"),
+  ].map((div) => div.getAttribute("class"));
 
   const updateGameboard = (currentPlayer, container, containerCode) => {
     const coordinateContainerDiv = container;
@@ -212,13 +120,17 @@ const screenController = (function screenController() {
         }
 
         if (coordinate.getShipName()) {
-          // coordinateDiv.classList.add("shot");
-
           if (containerCode === 1) {
             coordinateDiv.classList.replace("shot", "attacked");
           } else {
             coordinateDiv.classList.replace("shot", "hit");
           }
+        }
+
+        if (containerCode === 1) {
+          coordinateDiv.classList.add("ocean-coord");
+        } else {
+          coordinateDiv.classList.add("track-coord");
         }
 
         if (containerCode === 1) {
@@ -232,46 +144,28 @@ const screenController = (function screenController() {
     });
   };
 
- const switchPage = (page) => {
-  screens.forEach((screen) => {
-    console.log(screen)
-    screen.classList.add("hidden")
-  })
-  screens[page].classList.remove("hidden")
- }
+  const switchPage = (page) => {
+    screens.forEach((screen) => {
+      screen.classList.add("hidden");
+    });
+    screens[page].classList.remove("hidden");
+  };
 
-  // playerOne.placeShip("carrier", 0, 0, true); // 5
-  // playerOne.placeShip("destroyer", 2, 5, true); // 2
-  // playerOne.placeShip("battleship", 2, 2, true); // 4
-  // playerOne.placeShip("cruiser", 2, 3, true); // 3
-  // playerOne.placeShip("submarine", 2, 4, true); // 3
-
-  // playerTwo.placeShip("carrier", 0, 0, true); // 5
-
-  // playerOne.randomizeShipPlacement();
-  // playerOne.randomizeShipPlacement();
+  const setShipDirection = (e) => {
+    if (e.target.parentNode.getAttribute("class") === "rotate") {
+      shipDirection = true;
+    } else {
+      shipDirection = false;
+    }
+  };
   playerTwo.randomizeShipPlacement();
-
-  // updateGameboard(playerOne, playerOneGrid, 1);
-  // updateGameboard(playerTwo, playerTwoGrid, 2);
-
-  // return {
-  //     updateGameboard
-  // }
-
-  // console.log(enemyCoordinateDiv.outerHTML)
   main.addEventListener("click", (e) => {
-    // console.log(e.target);
-    // console.log(e.target.parentNode.parentNode.parentNode);
-
-    if (
-      e.target.parentNode.parentNode.parentNode.getAttribute("class") ===
-      "tracking-grid"
-    ) {
+    if (e.target.getAttribute("class") === "track-coord") {
       if (gameController.isGameOver()) {
         gameStatusDiv.textContent = gameController.getGameStatus();
         return;
       }
+
       const coordinateDiv = e.target;
       gameController.playRound(
         coordinateDiv.dataset.xCoordinate,
@@ -285,21 +179,8 @@ const screenController = (function screenController() {
           gameStatusDiv.textContent = gameController.getGameStatus();
         }
       }, 500);
-
-      //   console.log(playerTwo)
-      //   console.log(playerTwo.getBoard())
-      //   console.log(playerTwo.getShips())
-      //   console.log(gameController.getWinningMessage())
-
-      if (e.target.classList.value === "") {
-        gameStatusDiv.textContent = `${playerTwo.getPlayerName()}'s turn`;
-      }
-
-      // gameStatusDiv.textContent = `${playerTwo.getPlayerName()}'s turn`
+      gameStatusDiv.textContent = `${playerTwo.getPlayerName()}'s turn`;
       updateGameboard(playerTwo, playerTwoGrid, 2);
-      //   if (gameController.getWinningMessage()) {
-      //     gameStatusDiv.textContent = gameController.getWinningMessage()
-      //   }
       if (gameController.isGameOver()) {
         if (gameController.getActivePlayer() === playerTwo) {
           return;
@@ -308,36 +189,52 @@ const screenController = (function screenController() {
       }
     }
 
-    if (e.target.textContent === "Return to starting menu" ) {
-      switchPage(0)
+    if (e.target.textContent === "Return to starting menu") {
+      switchPage(0);
     }
 
-    
-    if (e.target.textContent === "Restart game!!" || e.target.textContent === "Place your ships!") {
-      playerOne.resetBoard()
-      switchPage(1)
-      updateGameboard(playerOne, playerOnePlacementGrid, 1)
-    } 
-    
-    
-    if (e.target.textContent === "Start your game!" ) {
-      switchPage(2)
+    if (
+      e.target.textContent === "Restart game!!" ||
+      e.target.textContent === "Place your ships!"
+    ) {
+      switchPage(1);
+      gameController.resetGame()
+      updateGameboard(playerOne, playerOnePlacementGrid, 1);
+    }
+
+    if (e.target.textContent === "Start your game!") {
+      switchPage(2);
       playerTwo.randomizeShipPlacement();
       updateGameboard(playerOne, playerOneGrid, 1);
       updateGameboard(playerTwo, playerTwoGrid, 2);
-    } 
+    }
 
     if (e.target.textContent === "Randomize ships!") {
       playerOne.randomizeShipPlacement();
-      updateGameboard(playerOne, playerOnePlacementGrid, 1)
+      updateGameboard(playerOne, playerOnePlacementGrid, 1);
     }
 
+    if (e.target.textContent === "Clear board!") {
+      playerOne.resetBoard();
+      updateGameboard(playerOne, playerOnePlacementGrid, 1);
+    }
 
+    if (shipNames.includes(e.target.getAttribute("class"))) {
+      selectedShip = e.target.getAttribute("class");
+      setShipDirection(e);
+    }
+  });
 
+  shipDivs.forEach((ship) => {
+    ship.addEventListener("contextmenu", (e) => {
+      e.preventDefault();
+      selectedShip = ship.getAttribute("class");
+      e.target.parentNode.classList.toggle("rotate");
+      setShipDirection(e);
 
-
-
-
+      console.log(selectedShip);
+      console.log(shipDirection);
+    });
   });
 })();
 
