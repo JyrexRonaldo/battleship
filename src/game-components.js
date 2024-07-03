@@ -320,8 +320,8 @@ function gameboard() {
       yPos,
       direction
     );
-    let message = "ship has been placed";
-
+    let message = "success";
+    
     if (checkSpace) {
       // direction = true means horizontal direction
       // direction = false means vertical direction
@@ -341,7 +341,7 @@ function gameboard() {
         spaceOutShipsVertically(xPos, yPos, length);
       }
     } else {
-      message = "can't place ship";
+      message = "failed";
     }
 
     return message;
@@ -440,9 +440,7 @@ function player(name, type) {
 
   const board = gameboard();
 
-  const placeShip = (shipTypeName, xPos, yPos, direction) => {
-    board.placeShip(shipTypeName, xPos, yPos, direction);
-  };
+  const placeShip = (shipTypeName, xPos, yPos, direction) => board.placeShip(shipTypeName, xPos, yPos, direction);
 
   const receiveAttack = (xPos, yPos) => {
     board.receiveAttack(xPos, yPos);

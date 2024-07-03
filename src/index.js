@@ -122,7 +122,6 @@ const screenController = (function screenController() {
         shipMiddleDiv.append(shipInnerDiv)
       }
       shipOuterDiv.append(shipMiddleDiv)
-      console.log(containerDiv)
       containerDiv.append(shipOuterDiv)
   })
     }
@@ -196,10 +195,6 @@ const screenController = (function screenController() {
     });
   }
 
-  // playerTwo.randomizeShipPlacement();
-
-  // playerOne.placeShip("carrier", 3, 1, false)
-
   main.addEventListener("click", (e) => {
     if (e.target.getAttribute("class") === "track-coord") {
       if (gameController.isGameOver()) {
@@ -241,6 +236,8 @@ const screenController = (function screenController() {
       switchPage(1);
       gameController.resetGame();
       updateGameboard(playerOne, playerOnePlacementGrid, 1);
+      updateShipContainer(playerOne, shipContainerDiv);
+      addDirectionChange();
     }
 
     if (e.target.textContent === "Start your game!") {
@@ -275,12 +272,16 @@ const screenController = (function screenController() {
             .getAttribute("class")
             .includes("ship-placement")
         ) {
+          
           const xPos = e.target.dataset.xCoordinate;
           const yPos = e.target.dataset.yCoordinate;
           if (selectedShip !== null && shipDirection !== null) {
-            playerOne.placeShip(selectedShip, xPos, yPos, shipDirection);
-            selectedShip = null
-            shipDirection = null
+            const message =  playerOne.placeShip(selectedShip, xPos, yPos, shipDirection);
+            if (message === "success") {
+              shipContainerDiv.removeChild(shipContainerDiv.querySelector(`div.${selectedShip}`))
+            }
+            selectedShip = null;
+            shipDirection = null;
           }
           updateGameboard(playerOne, playerOnePlacementGrid, 1);
         }
