@@ -106,28 +106,26 @@ const screenController = (function screenController() {
 
   const shipContainerDiv = document.querySelector(".ships > div:nth-child(2)");
 
-
   const updateShipContainer = (currentPlayer, container) => {
-    const containerDiv = container
+    const containerDiv = container;
     containerDiv.innerHTML = "";
-    const ships = currentPlayer.getShips()
+    const ships = currentPlayer.getShips();
     Object.keys(ships).forEach((key) => {
-      const shipOuterDiv = document.createElement("div")
-      shipOuterDiv.classList.add(key)
-      const shipMiddleDiv = document.createElement("div")
-      shipMiddleDiv.classList.add(key)
-      for (let i = 0; i < ships[key].getShipLength() ; i += 1) {
-        const shipInnerDiv = document.createElement("div")
-        shipInnerDiv.classList.add(key)
-        shipMiddleDiv.append(shipInnerDiv)
+      const shipOuterDiv = document.createElement("div");
+      shipOuterDiv.classList.add(key);
+      const shipMiddleDiv = document.createElement("div");
+      shipMiddleDiv.classList.add(key);
+      for (let i = 0; i < ships[key].getShipLength(); i += 1) {
+        const shipInnerDiv = document.createElement("div");
+        shipInnerDiv.classList.add(key);
+        shipMiddleDiv.append(shipInnerDiv);
       }
-      shipOuterDiv.append(shipMiddleDiv)
-      containerDiv.append(shipOuterDiv)
-  })
-    }
+      shipOuterDiv.append(shipMiddleDiv);
+      containerDiv.append(shipOuterDiv);
+    });
+  };
 
-
- const updateGameboard = (currentPlayer, container, containerCode) => {
+  const updateGameboard = (currentPlayer, container, containerCode) => {
     const coordinateContainerDiv = container;
     coordinateContainerDiv.innerHTML = "";
     currentPlayer.getBoard().forEach((xArray) => {
@@ -193,7 +191,7 @@ const screenController = (function screenController() {
         setShipDirection(e);
       });
     });
-  }
+  };
 
   main.addEventListener("click", (e) => {
     if (e.target.getAttribute("class") === "track-coord") {
@@ -241,15 +239,24 @@ const screenController = (function screenController() {
     }
 
     if (e.target.textContent === "Start your game!") {
-      switchPage(2);
-      playerTwo.randomizeShipPlacement();
-      updateGameboard(playerOne, playerOneGrid, 1);
-      updateGameboard(playerTwo, playerTwoGrid, 2);
-      gameStatusDiv.textContent = gameController.getGameStatus();
+      if (shipContainerDiv.hasChildNodes() === false) {
+        switchPage(2);
+        playerTwo.randomizeShipPlacement();
+        updateGameboard(playerOne, playerOneGrid, 1);
+        updateGameboard(playerTwo, playerTwoGrid, 2);
+        gameStatusDiv.textContent = gameController.getGameStatus();
+      }
     }
 
     if (e.target.textContent === "Randomize ships!") {
       playerOne.randomizeShipPlacement();
+
+      if (shipContainerDiv.hasChildNodes() === true) {
+        shipDivs.forEach((ship) => {
+          shipContainerDiv.removeChild(ship);
+        });
+      }
+
       updateGameboard(playerOne, playerOnePlacementGrid, 1);
     }
 
@@ -272,13 +279,19 @@ const screenController = (function screenController() {
             .getAttribute("class")
             .includes("ship-placement")
         ) {
-          
           const xPos = e.target.dataset.xCoordinate;
           const yPos = e.target.dataset.yCoordinate;
           if (selectedShip !== null && shipDirection !== null) {
-            const message =  playerOne.placeShip(selectedShip, xPos, yPos, shipDirection);
+            const message = playerOne.placeShip(
+              selectedShip,
+              xPos,
+              yPos,
+              shipDirection
+            );
             if (message === "success") {
-              shipContainerDiv.removeChild(shipContainerDiv.querySelector(`div.${selectedShip}`))
+              shipContainerDiv.removeChild(
+                shipContainerDiv.querySelector(`div.${selectedShip}`)
+              );
             }
             selectedShip = null;
             shipDirection = null;
@@ -289,9 +302,7 @@ const screenController = (function screenController() {
     }
   });
 
-  
-
-  addDirectionChange()
+  addDirectionChange();
 })();
 
 export { gameController, screenController };

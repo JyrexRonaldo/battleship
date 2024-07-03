@@ -90,7 +90,7 @@ function gameboard() {
   }
 
   const resetBoard = () => {
-    board = []
+    board = [];
 
     for (let x = 0; x < 10; x += 1) {
       board[x] = [];
@@ -98,7 +98,7 @@ function gameboard() {
         board[x].push(coordinates(x, y));
       }
     }
-  }
+  };
 
   let ships = {
     carrier: ship(5, "carrier"),
@@ -115,19 +115,14 @@ function gameboard() {
       cruiser: ship(3, "cruiser"),
       submarine: ship(3, "submarine"),
       destroyer: ship(2, "destroyer"),
-    };   
-  }
+    };
+  };
 
   const getBoard = () => board;
 
   const getShips = () => ships;
 
-  const checkCoordinatesAvailability = (
-    shipTypeName,
-    x,
-    y,
-    direction
-  ) => {
+  const checkCoordinatesAvailability = (shipTypeName, x, y, direction) => {
     const shipType = ships[shipTypeName];
     const length = shipType.getShipLength();
     const xPos = +x;
@@ -321,7 +316,7 @@ function gameboard() {
       direction
     );
     let message = "success";
-    
+
     if (checkSpace) {
       // direction = true means horizontal direction
       // direction = false means vertical direction
@@ -391,7 +386,7 @@ function gameboard() {
   };
 
   const randomizeShipPlacement = () => {
-    resetBoard()
+    resetBoard();
     const shipNames = Object.keys(ships);
     shipNames.forEach((shipName) => {
       let randomXCoordinate = null;
@@ -440,7 +435,8 @@ function player(name, type) {
 
   const board = gameboard();
 
-  const placeShip = (shipTypeName, xPos, yPos, direction) => board.placeShip(shipTypeName, xPos, yPos, direction);
+  const placeShip = (shipTypeName, xPos, yPos, direction) =>
+    board.placeShip(shipTypeName, xPos, yPos, direction);
 
   const receiveAttack = (xPos, yPos) => {
     board.receiveAttack(xPos, yPos);
@@ -463,12 +459,12 @@ function player(name, type) {
   const getRandomCoordinate = () => board.getRandomCoordinate();
 
   const resetBoard = () => {
-    board.resetBoard()
-  }
+    board.resetBoard();
+  };
 
   const resetShips = () => {
-    board.resetShips()
-  }
+    board.resetShips();
+  };
 
   return {
     getPlayerName,
