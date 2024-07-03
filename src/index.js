@@ -99,12 +99,36 @@ const screenController = (function screenController() {
   const [playerOne, playerTwo] = gameController.getPlayers();
   let selectedShip = null;
   let shipDirection = null;
-  const shipDivs = document.querySelectorAll(".ships > div:nth-child(2) > div");
+  let shipDivs = document.querySelectorAll(".ships > div:nth-child(2) > div");
   const shipNames = [
     ...document.querySelectorAll(".ships > div:nth-child(2) > div"),
   ].map((div) => div.getAttribute("class"));
 
-  const updateGameboard = (currentPlayer, container, containerCode) => {
+  const shipContainerDiv = document.querySelector(".ships > div:nth-child(2)");
+
+
+  const updateShipContainer = (currentPlayer, container) => {
+    const containerDiv = container
+    containerDiv.innerHTML = "";
+    const ships = currentPlayer.getShips()
+    Object.keys(ships).forEach((key) => {
+      const shipOuterDiv = document.createElement("div")
+      shipOuterDiv.classList.add(key)
+      const shipMiddleDiv = document.createElement("div")
+      shipMiddleDiv.classList.add(key)
+      for (let i = 0; i < ships[key].getShipLength() ; i += 1) {
+        const shipInnerDiv = document.createElement("div")
+        shipInnerDiv.classList.add(key)
+        shipMiddleDiv.append(shipInnerDiv)
+      }
+      shipOuterDiv.append(shipMiddleDiv)
+      console.log(containerDiv)
+      containerDiv.append(shipOuterDiv)
+  })
+    }
+
+
+ const updateGameboard = (currentPlayer, container, containerCode) => {
     const coordinateContainerDiv = container;
     coordinateContainerDiv.innerHTML = "";
     currentPlayer.getBoard().forEach((xArray) => {
@@ -159,6 +183,18 @@ const screenController = (function screenController() {
       shipDirection = false;
     }
   };
+
+  const addDirectionChange = () => {
+    shipDivs = document.querySelectorAll(".ships > div:nth-child(2) > div");
+    shipDivs.forEach((ship) => {
+      ship.addEventListener("contextmenu", (e) => {
+        e.preventDefault();
+        selectedShip = ship.getAttribute("class");
+        e.target.parentNode.classList.toggle("rotate");
+        setShipDirection(e);
+      });
+    });
+  }
 
   // playerTwo.randomizeShipPlacement();
 
@@ -223,6 +259,8 @@ const screenController = (function screenController() {
     if (e.target.textContent === "Clear board!") {
       playerOne.resetBoard();
       updateGameboard(playerOne, playerOnePlacementGrid, 1);
+      updateShipContainer(playerOne, shipContainerDiv);
+      addDirectionChange();
     }
 
     if (shipNames.includes(e.target.getAttribute("class"))) {
@@ -250,14 +288,9 @@ const screenController = (function screenController() {
     }
   });
 
-  shipDivs.forEach((ship) => {
-    ship.addEventListener("contextmenu", (e) => {
-      e.preventDefault();
-      selectedShip = ship.getAttribute("class");
-      e.target.parentNode.classList.toggle("rotate");
-      setShipDirection(e);
-    });
-  });
+  
+
+  addDirectionChange()
 })();
 
 export { gameController, screenController };
