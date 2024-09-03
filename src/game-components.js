@@ -481,4 +481,4 @@ function player(name, type) {
   };
 }
 
-export { ship, gameboard, player };
+export { ship, coordinates, gameboard, player };
