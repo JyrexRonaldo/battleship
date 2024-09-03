@@ -1,5 +1,5 @@
-import { ship, 
-  // coordinates, gameboard, player 
+import { coordinates, ship, 
+  //  gameboard, player 
 } from "./game-components";
 
 // import { gameController } from "./index";
@@ -90,6 +90,150 @@ describe("ship.getShipName()", () => {
     expect(testCruiser.getShipName()).toBe("testCruiser");
   });
 });
+
+
+describe("coordinates.getXCoordinate", () => {
+  test("getXCoordinate method should return 5", () => {
+    const testCoordinate1 = coordinates(5,5)
+    expect(testCoordinate1.getXCoordinate()).toBe(5)
+  })
+
+  test("getXCoordinate method should return 5", () => {
+    const testCoordinate2 = coordinates(7,5)
+    expect(testCoordinate2.getXCoordinate()).toBe(7)
+  })
+
+  test("getXCoordinate method should return 5", () => {
+    const testCoordinate3 = coordinates(3,5)
+    expect(testCoordinate3.getXCoordinate()).toBe(3)
+  })
+})
+
+describe("coordinates.getYCoordinate", () => {
+  test("getYCoordinate method should return 5", () => {
+    const testCoordinate1 = coordinates(3,4)
+    expect(testCoordinate1.getYCoordinate()).toBe(4)
+  })
+
+  test("getYCoordinate method should return 5", () => {
+    const testCoordinate2 = coordinates(3,2)
+    expect(testCoordinate2.getYCoordinate()).toBe(2)
+  })
+
+  test("getYCoordinate method should return 5", () => {
+    const testCoordinate3 = coordinates(3,1)
+    expect(testCoordinate3.getYCoordinate()).toBe(1)
+  })
+})
+
+describe("coordinates.setOccupiedStatus", () => {
+  test("getOccupiedStatus should return false if setOcuppied status is not run", () => {
+    const testCoordinate1 = coordinates(3,4)
+    expect(testCoordinate1.getOccupiedStatus()).toBe(false)
+  })
+
+  test("getOccupiedStatus should return true after setOcuppied status is run", () => {
+    const testCoordinate2 = coordinates(3,2)
+    testCoordinate2.setOccupiedStatus()
+    expect(testCoordinate2.getOccupiedStatus()).toBe(true)
+  })
+})
+
+describe("coordinates.getOccupiedStatus", () => {
+  test("getOccupiedStatus should return false if setOcuppied status is not run", () => {
+    const testCoordinate1 = coordinates(3,4)
+    expect(testCoordinate1.getOccupiedStatus()).toBe(false)
+  })
+
+  test("getOccupiedStatus should return true after setOcuppied status is run", () => {
+    const testCoordinate2 = coordinates(3,2)
+    testCoordinate2.setOccupiedStatus()
+    expect(testCoordinate2.getOccupiedStatus()).toBe(true)
+  })
+})
+
+describe("coordinates.setShipName", () => {
+  test("setShipName should be able to take a value to set the ship name", () => {
+    const testCoordinate1 = coordinates(3,4)
+    testCoordinate1.setShipName("destroyer")
+    expect(testCoordinate1.getShipName()).toBe("destroyer")
+  })
+})
+
+describe("coordinates.getShipName", () => {
+  test("getShipName should return specified ship name after it has been set", () => {
+    const testCoordinate2 = coordinates(3,2)
+    testCoordinate2.setShipName("Bogdanov")
+    expect(testCoordinate2.getShipName()).toBe("Bogdanov")
+  })
+})
+
+describe("coordinates.setAttackedStatus", () => {
+  test("getAttackedStatus should return true after setAttackedStatus has been set", () => {
+    const testCoordinate2 = coordinates(3,2)
+    testCoordinate2.setAttackedStatus()
+    expect(testCoordinate2.getAttackedStatus()).toBe(true)
+  })
+
+  test("getAttackedStatus should return false if setAttackedStatus has not been set", () => {
+    const testCoordinate2 = coordinates(3,2)
+    expect(testCoordinate2.getAttackedStatus()).toBe(false)
+  })
+})
+
+describe("coordinates.getAttackedStatus", () => {
+  test("getAttackedStatus should return true after setAttackedStatus has been set", () => {
+    const testCoordinate2 = coordinates(3,2)
+    testCoordinate2.setAttackedStatus()
+    expect(testCoordinate2.getAttackedStatus()).toBe(true)
+  })
+
+  test("getAttackedStatus should return false if setAttackedStatus has not been set", () => {
+    const testCoordinate2 = coordinates(3,2)
+    expect(testCoordinate2.getAttackedStatus()).toBe(false)
+  })
+})
+
+
+describe("coordinates.setSunkStatus", () => {
+  test("getSunkStatus should return true after setSunkStatus has been set", () => {
+    const testCoordinate2 = coordinates(3,2)
+    testCoordinate2.setSunkStatus()
+    expect(testCoordinate2.getSunkStatus()).toBe(true)
+  })
+
+  test("getSunkStatus should return false if setSunkStatus has not been set", () => {
+    const testCoordinate2 = coordinates(3,2)
+    expect(testCoordinate2.getSunkStatus()).toBe(false)
+  })
+})
+
+
+describe("coordinates.getSunkStatus", () => {
+  test("getSunkStatus should return true after setSunkStatus has been set", () => {
+    const testCoordinate2 = coordinates(3,2)
+    testCoordinate2.setSunkStatus()
+    expect(testCoordinate2.getSunkStatus()).toBe(true)
+  })
+
+  test("getSunkStatus should return false if setSunkStatus has not been set", () => {
+    const testCoordinate2 = coordinates(3,2)
+    expect(testCoordinate2.getSunkStatus()).toBe(false)
+  })
+})
+
+describe("coordinates.setSpaceAvailability", () => {
+  test("getSpaceAvailability should return false after setSpaceAvailability has been set", () => {
+    const testCoordinate2 = coordinates(3,2)
+    testCoordinate2.setSpaceAvailability()
+    expect(testCoordinate2.getSpaceAvailability()).toBe(false)
+  })
+
+  test("getSpaceAvailability should return true if setSpaceAvailability has not been set", () => {
+    const testCoordinate2 = coordinates(3,2)
+    expect(testCoordinate2.getSpaceAvailability()).toBe(true)
+  })
+})
 
 // describe("gameboard.checkShipSunkStatus", () => {
 //   test("gameboard.checkShipSunkStatus should return true after all ships are sunk", () => {
