@@ -435,35 +435,35 @@ function player(name, type) {
 
   const board = gameboard();
 
-  const placeShip = (shipTypeName, xPos, yPos, direction) =>
-    board.placeShip(shipTypeName, xPos, yPos, direction);
+  const placeShip = (shipTypeName, xPos, yPos, direction, callback = board.placeShip) =>
+    callback(shipTypeName, xPos, yPos, direction);
 
-  const receiveAttack = (xPos, yPos) => {
-    board.receiveAttack(xPos, yPos);
+  const receiveAttack = (xPos, yPos, callback = board.receiveAttack) => {
+    callback(xPos, yPos);
   };
 
-  const checkFleetSunkStatus = () => board.checkFleetSunkStatus();
+  const checkFleetSunkStatus = (callback = board.checkFleetSunkStatus) => callback();
 
-  const getShips = () => board.getShips();
+  const getShips = (callback = board.getShips) => callback();
 
-  const randomizeShipPlacement = () => {
-    board.randomizeShipPlacement();
+  const randomizeShipPlacement = (callback = board.randomizeShipPlacement) => {
+    callback();
   };
 
   const getPlayerType = () => playerType;
 
   const getPlayerName = () => playerName;
 
-  const getBoard = () => board.getBoard();
+  const getBoard = (callback = board.getBoard) => callback();
 
-  const getRandomCoordinate = () => board.getRandomCoordinate();
+  const getRandomCoordinate = (callback = board.getRandomCoordinate) => callback();
 
-  const resetBoard = () => {
-    board.resetBoard();
+  const resetBoard = (callback = board.resetBoard) => {
+    callback();
   };
 
-  const resetShips = () => {
-    board.resetShips();
+  const resetShips = (callback = board.resetShips) => {
+    callback();
   };
 
   return {

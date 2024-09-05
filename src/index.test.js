@@ -492,3 +492,126 @@ describe("gameboard.resetShips", () => {
     expect(testBoard.getShips().destroyer.isSunk()).toBe(false);
   });
 });
+
+describe("player.getPlayerName", () => {
+  test("getPlayerName should return PlayerOne", () => {
+    const testPlayer = player("PlayerOne", "real")
+
+    expect(testPlayer.getPlayerName()).toBe("PlayerOne")
+  });
+
+  test("getPlayerName should return PlayerOne", () => {
+    const testPlayer = player("John", "computer")
+
+    expect(testPlayer.getPlayerName()).toBe("John")
+  });
+});
+
+describe("player.getPlayerType", () => {
+  test("getPlayerType should return real", () => {
+    const testPlayer = player("PlayerOne", "real")
+
+    expect(testPlayer.getPlayerType()).toBe("real")
+  });
+
+  test("getPlayerType should return computer", () => {
+    const testPlayer = player("John", "computer")
+
+    expect(testPlayer.getPlayerType()).toBe("computer")
+  });
+});
+
+describe("player.placeShip", () => {
+  test("mockPlaceShip should be called once", () => {
+    const mockPlaceShip = jest.fn()
+    const testPlayer = player("PlayerOne", "real")
+    testPlayer.placeShip("carrier", 3, 5, true, mockPlaceShip)
+    expect(mockPlaceShip).toHaveBeenCalled()
+  });
+
+  test("mockPlaceShip should be called once", () => {
+    const mockPlaceShip = jest.fn()
+    const testPlayer = player("Jake", "real")
+    testPlayer.placeShip("carrier", 7, 2, true, mockPlaceShip)
+    expect(mockPlaceShip).toHaveBeenCalled()
+  });
+});
+
+describe("player.receiveAttack", () => {
+  test("mockReceiveAttack should be called once", () => {
+    const mockReceiveAttack = jest.fn()
+    const testPlayer = player("PlayerOne", "real")
+    testPlayer.receiveAttack(3, 5, mockReceiveAttack)
+    expect(mockReceiveAttack).toHaveBeenCalled()
+  });
+
+  test("mockReceiveAttack should be called once", () => {
+    const mockReceiveAttack = jest.fn()
+    const testPlayer = player("Jake", "real")
+    testPlayer.receiveAttack(3, 2, mockReceiveAttack)
+    expect(mockReceiveAttack).toHaveBeenCalled()
+  });
+});
+
+describe("player.checkFleetSunkStatus", () => {
+  test("mockCheckFleetSunkStatus should be called once", () => {
+    const mockCheckFleetSunkStatus = jest.fn()
+    const testPlayer = player("PlayerOne", "real")
+    testPlayer.checkFleetSunkStatus(mockCheckFleetSunkStatus)
+    expect(mockCheckFleetSunkStatus).toHaveBeenCalled()
+  });
+});
+
+describe("player.getShips", () => {
+  test("mockGetShips should be called once", () => {
+    const mockGetShips = jest.fn()
+    const testPlayer = player("PlayerOne", "real")
+    testPlayer.getShips(mockGetShips)
+    expect(mockGetShips).toHaveBeenCalled()
+  });
+});
+
+describe("player.randomizeShipPlacement", () => {
+  test("mockRandomizeShipPlacement should be called once", () => {
+    const mockRandomizeShipPlacement = jest.fn()
+    const testPlayer = player("PlayerOne", "real")
+    testPlayer.randomizeShipPlacement(mockRandomizeShipPlacement)
+    expect(mockRandomizeShipPlacement).toHaveBeenCalled()
+  });
+});
+
+describe("player.getBoard", () => {
+  test("mockGetBoard should be called once", () => {
+    const mockGetBoard = jest.fn()
+    const testPlayer = player("PlayerOne", "real")
+    testPlayer.getBoard(mockGetBoard)
+    expect(mockGetBoard).toHaveBeenCalled()
+  });
+});
+
+describe("player.getRandomCoordinate", () => {
+  test("mockGetRandomCoordinate should be called once", () => {
+    const mockGetRandomCoordinate = jest.fn()
+    const testPlayer = player("PlayerOne", "real")
+    testPlayer.getRandomCoordinate(mockGetRandomCoordinate)
+    expect(mockGetRandomCoordinate).toHaveBeenCalled()
+  });
+});
+
+describe("player.resetBoard", () => {
+  test("mockResetBoard should be called once", () => {
+    const mockResetBoard = jest.fn()
+    const testPlayer = player("PlayerOne", "real")
+    testPlayer.resetBoard(mockResetBoard)
+    expect(mockResetBoard).toHaveBeenCalled()
+  });
+});
+
+describe("player.resetShips", () => {
+  test("mockResetShips should be called once", () => {
+    const mockResetShips = jest.fn()
+    const testPlayer = player("PlayerOne", "real")
+    testPlayer.resetShips(mockResetShips)
+    expect(mockResetShips).toHaveBeenCalled()
+  });
+});
