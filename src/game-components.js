@@ -481,4 +481,81 @@ function player(name, type) {
   };
 }
 
-export { ship, coordinates, gameboard, player };
+function gameController() {
+  const players = [player("Player 1", "real"), player("Computer", "computer")];
+
+  const getPlayers = () => players;
+
+  let [activePlayer, activeOpponent] = players;
+
+  let gameOver = false;
+
+  const isGameOver = () => gameOver;
+
+  let gameStatus = `${activePlayer.getPlayerName()}'s turn `;
+
+  const switchActivePlayer = () => {
+    activePlayer = activePlayer === players[0] ? players[1] : players[0];
+  };
+
+  const switchActiveOpponent = () => {
+    activeOpponent = activeOpponent === players[1] ? players[0] : players[1];
+  };
+
+  const getActivePlayer = () => activePlayer;
+
+  const getActiveOpponent = () => activeOpponent;
+
+  const playRound = (xPos, yPos) => {
+    if (activeOpponent.getBoard()[xPos][yPos].getAttackedStatus() === true) {
+      return;
+    }
+    activeOpponent.receiveAttack(xPos, yPos);
+    if (activeOpponent.checkFleetSunkStatus()) {
+      gameStatus = `${activePlayer.getPlayerName()} won!`;
+      gameOver = true;
+      return;
+    }
+    switchActiveOpponent();
+    switchActivePlayer();
+    gameStatus = `${activePlayer.getPlayerName()}'s turn`;
+    if (activePlayer.getPlayerType() === "computer") {
+      let randomXCoordinate = null;
+      let randomYCoordinate = null;
+
+      do {
+        randomXCoordinate = activePlayer.getRandomCoordinate();
+        randomYCoordinate = activePlayer.getRandomCoordinate();
+      } while (
+        activeOpponent
+          .getBoard()
+          [randomXCoordinate][randomYCoordinate].getAttackedStatus() === true
+      );
+      playRound(randomXCoordinate, randomYCoordinate);
+    }
+  };
+
+  const getGameStatus = () => gameStatus;
+
+  const resetGame = () => {
+    activePlayer.resetBoard();
+    activePlayer.resetShips();
+    activeOpponent.resetBoard();
+    activeOpponent.resetShips();
+    [activePlayer, activeOpponent] = players;
+    gameOver = false;
+    gameStatus = `${activePlayer.getPlayerName()}'s turn `;
+  };
+
+  return {
+    getPlayers,
+    getActivePlayer,
+    getActiveOpponent,
+    playRound,
+    getGameStatus,
+    isGameOver,
+    resetGame,
+  };
+}
+
+export { ship, coordinates, gameboard, player, gameController };

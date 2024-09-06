@@ -1,4 +1,4 @@
-import { coordinates, ship, gameboard, player } from "./game-components";
+import { coordinates, ship, gameboard, player, gameController } from "./game-components";
 
 // import { gameController } from "./index";
 
