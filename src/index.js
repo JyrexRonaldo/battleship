@@ -64,9 +64,9 @@ const gameController = (function gameController() {
     activePlayer.resetShips();
     activeOpponent.resetBoard();
     activeOpponent.resetShips();
+    [activePlayer, activeOpponent] = players;
     gameOver = false;
     gameStatus = `${activePlayer.getPlayerName()}'s turn `;
-    [activePlayer, activeOpponent] = players;
   };
 
   return {
@@ -143,6 +143,7 @@ const screenController = (function screenController() {
 
         if (coordinate.getShipName()) {
           if (containerCode === 1) {
+            // containerCode === 1 signals player ship instead of enemy ship
             coordinateDiv.classList.replace("shot", "attacked");
           } else {
             coordinateDiv.classList.replace("shot", "hit");
