@@ -492,7 +492,7 @@ function gameController() {
 
   const isGameOver = () => gameOver;
 
-  let gameStatus = `${activePlayer.getPlayerName()}'s turn `;
+  let gameStatus = `${activePlayer.getPlayerName()}'s turn`;
 
   const switchActivePlayer = () => {
     activePlayer = activePlayer === players[0] ? players[1] : players[0];
@@ -506,11 +506,11 @@ function gameController() {
 
   const getActiveOpponent = () => activeOpponent;
 
-  const playRound = (xPos, yPos) => {
+  const playRound = (xPos, yPos, attackCallback = activeOpponent.receiveAttack) => {
     if (activeOpponent.getBoard()[xPos][yPos].getAttackedStatus() === true) {
       return;
     }
-    activeOpponent.receiveAttack(xPos, yPos);
+    attackCallback(xPos, yPos);
     if (activeOpponent.checkFleetSunkStatus()) {
       gameStatus = `${activePlayer.getPlayerName()} won!`;
       gameOver = true;
@@ -537,11 +537,11 @@ function gameController() {
 
   const getGameStatus = () => gameStatus;
 
-  const resetGame = () => {
-    activePlayer.resetBoard();
-    activePlayer.resetShips();
-    activeOpponent.resetBoard();
-    activeOpponent.resetShips();
+  const resetGame = (resetPlayerBoardCallback = activePlayer.resetBoard, resetPlayerShipCallback = activePlayer.resetShips, resetOpponentBoardCallback = activeOpponent.resetBoard, resetOpponentShipCallback = activeOpponent.resetShips ) => {
+    resetPlayerBoardCallback();
+    resetPlayerShipCallback();
+    resetOpponentBoardCallback();
+    resetOpponentShipCallback();
     [activePlayer, activeOpponent] = players;
     gameOver = false;
     gameStatus = `${activePlayer.getPlayerName()}'s turn `;

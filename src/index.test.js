@@ -615,3 +615,68 @@ describe("player.resetShips", () => {
     expect(mockResetShips).toHaveBeenCalled()
   });
 });
+
+describe("gameController.getPlayers", () => {
+  test("gameController.getPlayers should return expectedPlayers", () => {
+    const expectedPlayers = [player("Player 1", "real"), player("Computer", "computer")];
+    const activeGameController = gameController()
+    expect(JSON.stringify(activeGameController.getPlayers())).toEqual(JSON.stringify(expectedPlayers))
+  })
+})
+
+describe("gameController.getActivePlayer", () => {
+  test("gameController.getPlayers should return expectedPlayers", () => {
+    const expectedPlayer = player("Player 1", "real")
+    const activeGameController = gameController()
+    expect(JSON.stringify(activeGameController.getActivePlayer())).toEqual(JSON.stringify(expectedPlayer))
+  })
+})
+
+describe("gameController.getActiveOpponent", () => {
+  test("gameController.getPlayers should return expectedPlayers", () => {
+    const expectedPlayer = player("Computer", "computer")
+    const activeGameController = gameController()
+    expect(JSON.stringify(activeGameController.getActivePlayer())).toEqual(JSON.stringify(expectedPlayer))
+  })
+})
+
+describe("gameController.playRound", () => {
+  test("gameController.playRound should call the mockAttackCallback", () => {
+    const mockAttackCallback = jest.fn()
+    const activeGameController = gameController()
+    activeGameController.playRound(3, 5, mockAttackCallback)
+    expect(mockAttackCallback).toHaveBeenCalled()
+  })
+})
+
+describe("gameController.getGameStatus", () => {
+  test("gameController.getGameStatus should return Player 1's turn", () => {
+    const activeGameController = gameController()
+    expect(activeGameController.getGameStatus()).toEqual("Player 1's turn")
+  })
+})
+
+describe("gameController.isGameOver", () => {
+  test("gameController.isGameOver should return false", () => {
+    const activeGameController = gameController()
+    expect(activeGameController.isGameOver()).toEqual(false)
+  })
+})
+
+describe("gameController.resetGame", () => {
+  test("gameController.resetGame should call all the mockCallbacks", () => {
+   const mockresetPlayerBoardCallback = jest.fn()
+   const mockresetPlayerShipCallback = jest.fn()
+   const mockresetOpponentBoardCallback = jest.fn()
+   const mockresetOpponentShipCallback = jest.fn()
+    const activeGameController = gameController()
+    activeGameController.resetGame( mockresetPlayerBoardCallback,
+      mockresetPlayerShipCallback,
+      mockresetOpponentBoardCallback,
+      mockresetOpponentShipCallback)
+    expect(mockresetPlayerBoardCallback).toHaveBeenCalled()
+    expect(mockresetPlayerShipCallback).toHaveBeenCalled()
+    expect(mockresetOpponentBoardCallback).toHaveBeenCalled()
+    expect(mockresetOpponentShipCallback).toHaveBeenCalled()
+  })
+})
