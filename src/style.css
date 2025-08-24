@@ -14,7 +14,7 @@ body {
 
 main {
   height: 100vh;
-  background-color: cyan;
+  background-color: white;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -185,4 +185,8 @@ main > div {
 /* mark sunk ship*/
 .sunk {
   content: url(./assets/delete-icon-red.svg);
+}
+
+.status > p {
+  text-align: center;
 }
